@@ -7,7 +7,7 @@
 ------------------
 
 ### Use Case:
- We can schedule Good Morning or Good night messages at a particular time for are loved ones. We can set reminders. Suppose at 12 o'clock you want to wish your friend happy birthday so schedule your messages sleep nicely.
+ We can schedule Good Morning or Good night messages at a particular time for our loved ones. We can set reminders. Suppose at 12 o'clock you want to wish your friend happy birthday so schedule your messages and sleep peacefully.
 
 ---------------------
 ## Install
