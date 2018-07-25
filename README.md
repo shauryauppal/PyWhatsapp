@@ -20,6 +20,11 @@ OR
 
 >$ pip install schedule
 
+_________________
+
+#### Platform: Windows
+ChromeDriver used if this versions becomes outdates or gives problem download the latest version from <a href = "http://chromedriver.chromium.org/downloads"> Download Link </a>
+
 ------------------
 
 ## Code:
@@ -29,9 +34,9 @@ In this functions Contacts list can be hardcoded or you can give input according
 
 >Enter number of Contacts to add-> 2
 
->Enter contact names-> "Rahul"
+>Enter contact names-> Rahul
 
->Enter contact name-> "Shauryauppal"
+>Enter contact name-> Shauryauppal
 
 #### input_message()
 In this function we take input of message to send to all the Contacts list from user.
