@@ -1,12 +1,12 @@
 # PyWhatsapp
-##  Python Automation using selenium &amp; Scheduling of messages
+##  Python Automation using Selenium &amp; Scheduling of messages and media
 
 ## Objective:
  Pywhatsapp is used to Automate Whatsapp through Whatsapp web. We can add number of contacts whom we want to send messages or Media attachments ( like Video or Images). Selenium, Autoit and Schedule have been used one from Automation and other for Scheduling messages.
 
 ------------------
 
-### Use Case:
+## Use Case:
  We can schedule Good Morning or Good night messages with a nice Picture at a particular time to our loved ones. We can set reminders. Suppose at 12 o'clock you want to wish your friend happy birthday so schedule your messages and sleep peacefully.
 
 ---------------------
@@ -24,11 +24,11 @@ OR
 
 _________________
 
-#### Platform: Windows
+### Platform: Windows
 ChromeDriver used if this versions becomes outdates or gives problem download the latest version from <a href = "http://chromedriver.chromium.org/downloads"> Download Link </a>
 
 ------------------
-#### For Sending Attachments you need to Install AutoIt (Optional if you only what to send messages):
+### For Sending Attachments you need to Install AutoIt (Optional if you only what to send messages):
 
 You may install from the links given below or Install from the folder named "Install AutoIt for Sending Attachments" in the repository.
 
@@ -43,7 +43,7 @@ Installation is pretty Simple no changes in setting are required keep everything
 ------------------
 
 ## Code:
-#### input_contacts()
+### input_contacts()
 
 In this functions Contacts list can be hardcoded or you can give input accordingly.(Make changes in Contact array according to you)
 
@@ -53,17 +53,17 @@ In this functions Contacts list can be hardcoded or you can give input according
 
 >Enter contact name-> Shauryauppal
 
-#### input_message()
+### input_message()
 In this function we take input of message to send to all the Contacts list from user.
 
 Example:
 > Enter the msg to send-> Good morning
 
-#### Enter choice whether to send attachments or not.
+### Enter choice whether to send attachments or not.
 > Would you like to send attachment(yes/no): yes
 Answer the input with yes or no.
 
-#### send_attachments()
+### send_attachments()
 NOTE: Add Photos & Videos in the Media Folder.
 
 image_path = os.getcwd() +"\\Media\\" + 'goodmorning.jpg'
@@ -77,7 +77,7 @@ Example path to send goodmorning image to your listed Contacts.
 
 You can set your own photos at a particular time feel free to do that.
 
-#### Schedule messages and Attachments
+### Schedule messages and Attachments
 schedule.every().Monday.at("06:00").do(sender)
 
 schedule.every().Tuesday.at("07:00").do(sender)
@@ -88,6 +88,9 @@ schedule.every().day.at("08:30").do(sender)
 
 * You make change these schedule days and time according to you.
 
+------------
+### Demo of Working (GIF)
+<img src="https://raw.githubusercontent.com/shauryauppal/PyWhatsapp/master/Media/Demo.gif" height=400 width=400/>
 
 ------------
 
@@ -107,4 +110,4 @@ shauryauppal00111@gmail.com
 
 Feel free to mail me for any queries.
 
-##### Don't forget to give me Credits in case it helps you. 
+##### Don't forget to give me Credits in case it helps you.
