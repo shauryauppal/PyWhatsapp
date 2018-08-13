@@ -19,7 +19,8 @@ choice = None
 
 def input_contacts():
     global Contact
-    Contact = ['"Shaurya"']
+    # List of Contacts
+    Contact = []
     n = int(input('Enter number of Contacts to add->'))
     for i in range(0,n):
         inp = str(input("Enter contact name->"))
@@ -93,6 +94,7 @@ def sender():
     global Contact,choice
     for i in Contact:
         send_message(i)
+        print("Message sent to ",i)
         if(choice=="yes"):
             send_attachment()
 
@@ -128,6 +130,8 @@ if __name__ == "__main__":
     # Send message to all Contact List
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
+    #Comment this line is case you don't want to test 
+    #or have completed the testing part of script.
     sender()
     
     # First send Task Complete
