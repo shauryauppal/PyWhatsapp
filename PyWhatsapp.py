@@ -16,6 +16,9 @@ message = None
 Link = "https://web.whatsapp.com/"
 wait = None
 choice = None
+docChoice = None
+doc_filename = None
+
 
 def input_contacts():
     global Contact
@@ -87,21 +90,45 @@ def send_attachment():
     time.sleep(3)
     whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
     whatsapp_send_button.click()
+
+#Function to send Documents(PDF, Word file, PPT, etc.)
+def send_files():
+    global doc_filename
+    # Attachment Drop Down Menu
+    clipButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/div/span')
+    clipButton.click()
+    time.sleep(1)
     
+    # To send a Document(PDF, Word file, PPT)
+    docButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/span/div/div/ul/li[3]/button')
+    docButton.click()
+    time.sleep(1)
+    
+    docPath = os.getcwd() + "\\Documents\\" + doc_filename
+    
+    autoit.control_focus("Open","Edit1")
+    autoit.control_set_text("Open","Edit1",(docPath) )
+    autoit.control_click("Open","Button1")
+    
+    time.sleep(3)
+    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
+    whatsapp_send_button.click()
 
 
 def sender():
-    global Contact,choice
+    global Contact,choice, docChoice
     for i in Contact:
         send_message(i)
         print("Message sent to ",i)
         if(choice=="yes"):
             send_attachment()
+        if(docChoice == "yes"):
+            send_files()
 
 # For GoodMorning Image and Message
 schedule.every().day.at("07:00").do( sender )
 # For How are you message 
-schedule.every().day.at("17:00").do( sender )
+schedule.every().day.at("13:35").do( sender )
 # For GoodNight Image and Message 
 schedule.every().day.at("22:00").do( sender )
 
@@ -125,6 +152,13 @@ if __name__ == "__main__":
     #Send Attachment Media only Images/Video
     choice = input("Would you like to send attachment(yes/no): ")
     # Let us login and Scan
+    
+    docChoice = input("Would you file to send a Document file(yes/no): ")
+    if(docChoice == "yes"):
+        # Note the document file should be present in the Document Folder
+        doc_filename = input("Enter the Document file name you want to send: ")
+        
+    
     whatsapp_login()
        
     # Send message to all Contact List
@@ -141,4 +175,3 @@ if __name__ == "__main__":
     scheduler()
     
     # browser.quit()
-    
