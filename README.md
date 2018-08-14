@@ -77,6 +77,15 @@ Example path to send goodmorning image to your listed Contacts.
 
 You can set your own photos at a particular time feel free to do that.
 
+### send_files()
+NOTE: Add the document in the documents folder.
+> Would you file to send a Document file(yes/no): yes
+
+> Enter the Document file name you want to send: opportunity
+
+* If the document file names are same then write the document name with extension like opportunity.pdf or opportunity.txt
+
+
 ### Schedule messages and Attachments
 schedule.every().Monday.at("06:00").do(sender)
 
