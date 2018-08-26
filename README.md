@@ -25,7 +25,7 @@ OR
 _________________
 
 ### Platform: Windows
-ChromeDriver used if this versions becomes outdates or gives problem download the latest version from <a href = "http://chromedriver.chromium.org/downloads"> Download Link </a>
+ChromeDriver used if this versions becomes outdated or gives problem download the latest version from <a href = "http://chromedriver.chromium.org/downloads"> Download Link </a>
 
 ------------------
 ### For Sending Attachments you need to Install AutoIt (Optional if you only what to send messages):
