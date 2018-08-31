@@ -1,4 +1,6 @@
 # PyWhatsapp
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://github.com/shauryauppal/PyWhatsapp)  [![License](https://img.shields.io/github/license/shauryauppal/PyWhatsapp.svg)](https://github.com/shauryauppal/PyWhatsapp/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/shauryauppal/PyWhatsapp.svg)](https://github.com/shauryauppal/PyWhatsapp/stargazers)  [![HitCount](http://hits.dwyl.io/shauryauppal/PyWhatsapp.svg)](http://hits.dwyl.io/shauryauppal/PyWhatsapp)
+
 ##  Python Automation using Selenium &amp; Scheduling of messages and media
 
 ## Objective:
@@ -25,7 +27,7 @@ OR
 _________________
 
 ### Platform: Windows
-ChromeDriver used if this versions becomes outdates or gives problem download the latest version from <a href = "http://chromedriver.chromium.org/downloads"> Download Link </a>
+ChromeDriver used: If this versions becomes outdated or gives problem download the latest version from <a href = "http://chromedriver.chromium.org/downloads"> Download Link </a>
 
 ------------------
 ### For Sending Attachments you need to Install AutoIt (Optional if you only what to send messages):
@@ -119,4 +121,5 @@ shauryauppal00111@gmail.com
 
 Feel free to mail me for any queries.
 
-##### Don't forget to give me Credits in case it helps you.
+#### If this helped you in any way gift me a cup of coffee :coffee:
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UXSREFS2VFSWU)
