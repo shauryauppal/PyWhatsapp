@@ -115,7 +115,7 @@ schedule.every().day.at("08:30").do(sender)
 * You make change these schedule days and time according to you.
 -----------------
 ### Input Screenshot:
-<img src="https://raw.githubusercontent.com/shauryauppal/PyWhatsapp/master/Input_Type.png" height=320 width=320/>
+<img src="https://raw.githubusercontent.com/shauryauppal/PyWhatsapp/master/Input_Type.PNG" height=300/>
 
 ------------
 
