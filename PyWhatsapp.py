@@ -18,23 +18,41 @@ wait = None
 choice = None
 docChoice = None
 doc_filename = None
-
+unsaved_Contacts = None
 
 def input_contacts():
-    global Contact
+    global Contact,unsaved_Contacts
     # List of Contacts
     Contact = []
-    n = int(input('Enter number of Contacts to add->'))
-    for i in range(0,n):
-        inp = str(input("Enter contact name->"))
-        inp = '"' + inp + '"'
-        # print (inp)
-        Contact.append(inp)
-    # Print the new Contact list after additional input contacts
-    print(Contact)
-    print('')
+    unsaved_Contacts = []
+    while True:
+        # Enter your choice 1 or 2
+        print("1.Enter Saved Contact number->")
+        print("2.Enter Unsaved Contact number->")
+        x = int(input("Enter your choice(1 or 2):->"))
+        if x == 1:
+            n = int(input('Enter number of Contacts to add(count)->'))
+            for i in range(0,n):
+                inp = str(input("Enter contact name(text)->"))
+                inp = '"' + inp + '"'
+                # print (inp)
+                Contact.append(inp)
+        elif x == 2:
+            n = int(input('Enter number of unsaved Contacts to add(count)->'))
+            for i in range(0,n):
+                # Example use: 919899123456, Don't use: +919899123456
+                # Reference : https://faq.whatsapp.com/en/android/26000030/
+                inp = str(input("Enter unsaved contact number with country code(interger)->"))
+                # print (inp)
+                unsaved_Contacts.append(inp)
 
+        choi = input("Do you want to add more contacts(yes or no)->")
+        if choi == "no":
+            break
 
+    print("Saved contacts entered list->",Contact)
+    print("Unsaved numbers entered list->",unsaved_Contacts)
+    
 def input_message():
     global message
     # Enter your Good Morning Msg
@@ -58,6 +76,17 @@ def send_message(target):
         input_box.send_keys(message + Keys.ENTER)
         time.sleep(1)
     except NoSuchElementException:
+        return
+
+def send_unsaved_contact_message():
+    global message
+    try:
+        time.sleep(7)
+        input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
+        input_box.send_keys(message + Keys.ENTER)
+        print("Message sent successfuly")
+    except NoSuchElementException:
+        print("Failed to send message")
         return
 
 def send_attachment():
@@ -116,7 +145,7 @@ def send_files():
 
 
 def sender():
-    global Contact,choice, docChoice
+    global Contact,choice, docChoice, unsaved_Contacts
     for i in Contact:
         send_message(i)
         print("Message sent to ",i)
@@ -124,6 +153,22 @@ def sender():
             send_attachment()
         if(docChoice == "yes"):
             send_files()
+    time.sleep(5)
+    if len(unsaved_Contacts)>0:
+        for i in unsaved_Contacts:
+            link = "https://wa.me/"+i
+            #driver  = webdriver.Chrome()
+            browser.get(link)
+            time.sleep(1)
+            browser.find_element_by_xpath('//*[@id="action-button"]').click()
+            time.sleep(4)
+            print("Sending message to", i)
+            send_unsaved_contact_message()
+            if(choice=="yes"):
+                send_attachment()
+            if(docChoice == "yes"):
+                send_files()
+            time.sleep(7)
 
 # For GoodMorning Image and Message
 schedule.every().day.at("07:00").do( sender )
@@ -158,7 +203,7 @@ if __name__ == "__main__":
         # Note the document file should be present in the Document Folder
         doc_filename = input("Enter the Document file name you want to send: ")
         
-    
+    print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
     whatsapp_login()
        
     # Send message to all Contact List

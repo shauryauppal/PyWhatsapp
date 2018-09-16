@@ -49,11 +49,26 @@ Installation is pretty Simple no changes in setting are required keep everything
 
 In this functions Contacts list can be hardcoded or you can give input accordingly.(Make changes in Contact array according to you)
 
->Enter number of Contacts to add-> 2
 
->Enter contact names-> Rahul
+```
+1.Enter Saved Contact number->
+2.Enter Unsaved Contact number->
+Enter your choice(1 or 2):->1
+# For saved Contacts
+Enter number of Contacts to add(count)->1
+Enter contact name(text)->Shaurya
+# For unsaved Contacts
+Enter number of unsaved Contacts to add(count)->1
+Enter unsaved contact number with country code(interger)->919899123456
+```
 
->Enter contact name-> Shauryauppal
+### NOTE: For unsaved contacts:
+Do enter your country code then contact number.
+>Use: 919899123456
+
+>Don't Use: +919899123456
+
+
 
 ### input_message()
 In this function we take input of message to send to all the Contacts list from user.
@@ -98,8 +113,12 @@ schedule.every().Friday.at("07:30").do(sender)
 schedule.every().day.at("08:30").do(sender)
 
 * You make change these schedule days and time according to you.
+-----------------
+### Input Screenshot:
+<img src="https://raw.githubusercontent.com/shauryauppal/PyWhatsapp/master/Input_Type.png" height=320 width=320/>
 
 ------------
+
 ### Demo of Working (GIF)
 <img src="https://raw.githubusercontent.com/shauryauppal/PyWhatsapp/master/Media/Demo.gif" height=400 width=400/>
 
@@ -119,7 +138,7 @@ Code and documentation are available according to the Apache License (see <a hre
 #### Shaurya Uppal
 shauryauppal00111@gmail.com
 
-Feel free to mail me for any queries.
+Feel free to mail me for any queries (After you have tried finding your solution).
 
 #### If this helped you in any way gift me a cup of coffee :coffee:
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UXSREFS2VFSWU)
