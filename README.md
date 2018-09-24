@@ -134,8 +134,8 @@ Code and documentation are available according to the Apache License (see <a hre
 
 ---------------------
 
-### Author:
-#### Shaurya Uppal
+## Author:
+## <a href="https://www.linkedin.com/in/shaurya-uppal/">Shaurya Uppal</a>
 shauryauppal00111@gmail.com
 
 Feel free to mail me for any queries (After you have tried finding your solution).
