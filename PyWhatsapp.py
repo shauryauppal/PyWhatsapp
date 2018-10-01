@@ -219,7 +219,7 @@ if __name__ == "__main__":
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
     sender()
-    #Comment line 220 is case you don't want to test
+    #Comment line 221 is case you don't want to test
     #or have completed the testing part of script.
 
     if(isSchedule=="yes"):
