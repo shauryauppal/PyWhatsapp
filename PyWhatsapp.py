@@ -55,7 +55,7 @@ def input_contacts():
 
     print("Saved contacts entered list->",Contact)
     print("Unsaved numbers entered list->",unsaved_Contacts)
-    
+
 def input_message():
     global message
     # Enter your Good Morning Msg
@@ -97,14 +97,14 @@ def send_attachment():
     clipButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/div/span')
     clipButton.click()
     time.sleep(1)
-    
+
     # To send Videos and Images.
     mediaButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/span/div/div/ul/li[1]/button')
     mediaButton.click()
     time.sleep(3)
-    
+
     hour = datetime.datetime.now().hour
-    
+
     # After 5am and before 11am scheduled this.
     if(hour >=5 and hour <=11):
         image_path = os.getcwd() +"\\Media\\" + 'goodmorning.jpg'
@@ -114,11 +114,11 @@ def send_attachment():
     else: # At any other time schedule this.
         image_path = os.getcwd() +"\\Media\\" + 'howareyou.jpg'
     # print(image_path)
-    
+
     autoit.control_focus("Open","Edit1")
     autoit.control_set_text("Open","Edit1",(image_path) )
     autoit.control_click("Open","Button1")
-    
+
     time.sleep(3)
     whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
     whatsapp_send_button.click()
@@ -130,18 +130,18 @@ def send_files():
     clipButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/div/span')
     clipButton.click()
     time.sleep(1)
-    
+
     # To send a Document(PDF, Word file, PPT)
     docButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/span/div/div/ul/li[3]/button')
     docButton.click()
     time.sleep(1)
-    
+
     docPath = os.getcwd() + "\\Documents\\" + doc_filename
-    
+
     autoit.control_focus("Open","Edit1")
     autoit.control_set_text("Open","Edit1",(docPath) )
     autoit.control_click("Open","Button1")
-    
+
     time.sleep(3)
     whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[1]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
     whatsapp_send_button.click()
@@ -173,15 +173,15 @@ def sender():
                 send_files()
             time.sleep(7)
 
-# # For GoodMorning Image and Message
-# schedule.every().day.at("07:00").do( sender )
-# # For How are you message 
-# schedule.every().day.at("13:35").do( sender )
-# # For GoodNight Image and Message 
-# schedule.every().day.at("22:00").do( sender )
+# For GoodMorning Image and Message
+schedule.every().day.at("07:00").do( sender )
+# For How are you message
+schedule.every().day.at("13:35").do( sender )
+# For GoodNight Image and Message
+schedule.every().day.at("22:00").do( sender )
 
-# # Example Schedule for a particular day of week Monday
-# schedule.every().monday.at("08:00").do(sender) 
+# Example Schedule for a particular day of week Monday
+schedule.every().monday.at("08:00").do(sender)
 
 
 # To schedule your msgs
@@ -191,38 +191,47 @@ def scheduler():
         time.sleep(1)
 
 if __name__ == "__main__":
-    
+
     print("Web Page Open")
 
-    jobtime = input('input time in 24 hour (HH:MM) format - ')
     # Append more contact as input to send messages
     input_contacts()
     # Enter the message you want to send
     input_message()
+
+    isSchedule = input('Do you want to schedule your Message(yes/no):')
+    if(isSchedule=="yes"):
+        jobtime = input('input time in 24 hour (HH:MM) format - ')
+
     #Send Attachment Media only Images/Video
     choice = input("Would you like to send attachment(yes/no): ")
-    # Let us login and Scan
-    
+
     docChoice = input("Would you file to send a Document file(yes/no): ")
     if(docChoice == "yes"):
         # Note the document file should be present in the Document Folder
         doc_filename = input("Enter the Document file name you want to send: ")
-        
+
+    # Let us login and Scan
     print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
     whatsapp_login()
-       
+
     # Send message to all Contact List
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
-    #Comment this line is case you don't want to test 
+    sender()
+    #Comment line 220 is case you don't want to test
     #or have completed the testing part of script.
-    schedule.every().day.at(jobtime).do(sender)
-    # sender()
-    
+
+    if(isSchedule=="yes"):
+        schedule.every().day.at(jobtime).do(sender)
+
     # First send Task Complete
     print("Completed")
-    
+
     # Messages are scheduled to send
+    # Default schedule to send attachment and greet the personal
+    # For GoodMorning, GoodNight and howareyou wishes
+    # Comment in case you don't want to send wishes or schedule
     scheduler()
-    
+
     # browser.quit()
