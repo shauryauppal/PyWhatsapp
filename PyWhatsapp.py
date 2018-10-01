@@ -5,7 +5,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import autoit
+try:
+    import autoit
+except:
+    pass
 import time
 import datetime
 import os
@@ -170,15 +173,15 @@ def sender():
                 send_files()
             time.sleep(7)
 
-# For GoodMorning Image and Message
-schedule.every().day.at("07:00").do( sender )
-# For How are you message 
-schedule.every().day.at("13:35").do( sender )
-# For GoodNight Image and Message 
-schedule.every().day.at("22:00").do( sender )
+# # For GoodMorning Image and Message
+# schedule.every().day.at("07:00").do( sender )
+# # For How are you message 
+# schedule.every().day.at("13:35").do( sender )
+# # For GoodNight Image and Message 
+# schedule.every().day.at("22:00").do( sender )
 
-# Example Schedule for a particular day of week Monday
-schedule.every().monday.at("08:00").do(sender) 
+# # Example Schedule for a particular day of week Monday
+# schedule.every().monday.at("08:00").do(sender) 
 
 
 # To schedule your msgs
@@ -190,6 +193,8 @@ def scheduler():
 if __name__ == "__main__":
     
     print("Web Page Open")
+
+    jobtime = input('input time in 24 hour (HH:MM) format - ')
     # Append more contact as input to send messages
     input_contacts()
     # Enter the message you want to send
@@ -211,7 +216,8 @@ if __name__ == "__main__":
     # Scheduling works below.
     #Comment this line is case you don't want to test 
     #or have completed the testing part of script.
-    sender()
+    schedule.every().day.at(jobtime).do(sender)
+    # sender()
     
     # First send Task Complete
     print("Completed")
