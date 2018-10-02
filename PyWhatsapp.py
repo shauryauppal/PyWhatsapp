@@ -153,9 +153,15 @@ def sender():
         send_message(i)
         print("Message sent to ",i)
         if(choice=="yes"):
-            send_attachment()
+            try:
+                send_attachment()
+            except:
+                print('Attachment not sent.')
         if(docChoice == "yes"):
-            send_files()
+            try:
+                send_files()
+            except:
+                print('Files not sent')
     time.sleep(5)
     if len(unsaved_Contacts)>0:
         for i in unsaved_Contacts:
@@ -168,9 +174,15 @@ def sender():
             print("Sending message to", i)
             send_unsaved_contact_message()
             if(choice=="yes"):
-                send_attachment()
+                try:
+                    send_attachment()
+                except:
+                    print('Attachment not sent.')
             if(docChoice == "yes"):
-                send_files()
+                try:
+                    send_files()
+                except:
+                    print('Files not sent')
             time.sleep(7)
 
 # For GoodMorning Image and Message
@@ -218,12 +230,14 @@ if __name__ == "__main__":
     # Send message to all Contact List
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
-    sender()
+    
     #Comment line 221 is case you don't want to test
     #or have completed the testing part of script.
 
     if(isSchedule=="yes"):
         schedule.every().day.at(jobtime).do(sender)
+    else:
+        sender()
 
     # First send Task Complete
     print("Completed")
