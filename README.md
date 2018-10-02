@@ -178,8 +178,9 @@ href="https://github.com/shauryauppal/PyWhatsapp/blob/master/LICENSE">LICENSE</a
 ---
 
 ## Author:
-## <a href="https://www.linkedin.com/in/shaurya-uppal/">Shaurya
-Uppal</a> shauryauppal00111@gmail.com
+## <a href="https://www.linkedin.com/in/shaurya-uppal/">Shaurya Uppal</a>
+
+shauryauppal00111@gmail.com
 
 Feel free to mail me for any queries (After you have tried finding your
 solution).
