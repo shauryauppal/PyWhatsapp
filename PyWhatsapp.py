@@ -211,6 +211,9 @@ if __name__ == "__main__":
     # Enter the message you want to send
     input_message()
 
+    # If you want to schedule messages for
+    # a particular timing choose yes
+    # If no choosed instant message would be sent
     isSchedule = input('Do you want to schedule your Message(yes/no):')
     if(isSchedule=="yes"):
         jobtime = input('input time in 24 hour (HH:MM) format - ')
@@ -230,17 +233,16 @@ if __name__ == "__main__":
     # Send message to all Contact List
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
-    
-    #Comment line 221 is case you don't want to test
-    #or have completed the testing part of script.
+    # sender()
+    # Uncomment line 236 is case you want to test the program
 
     if(isSchedule=="yes"):
         schedule.every().day.at(jobtime).do(sender)
     else:
         sender()
 
-    # First send Task Complete
-    print("Completed")
+    # First time message sending Task Complete
+    print("Task Completed")
 
     # Messages are scheduled to send
     # Default schedule to send attachment and greet the personal
