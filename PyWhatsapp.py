@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
 try:
     import autoit
 except:
@@ -59,7 +60,19 @@ def input_contacts():
 def input_message():
     global message
     # Enter your Good Morning Msg
-    message = input("Enter the msg to send->")
+    print("Enter the message and use the symbol '~' to end the message")
+    message = []
+    temp = ""
+    done = False
+
+    while not done:
+      temp = input()
+      if temp == "~":
+        done = True
+      else:
+        message.append(temp)
+    message = "\n".join(message)
+    # print(message)
 
 def whatsapp_login():
     global wait,browser,Link
@@ -76,7 +89,13 @@ def send_message(target):
         group_title = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
         group_title.click()
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
-        input_box.send_keys(message + Keys.ENTER)
+        for ch in message:
+            if ch == "\n":
+                ActionChains(browser).key_down(Keys.SHIFT).key_down(Keys.ENTER).key_up(Keys.ENTER).key_up(Keys.SHIFT).key_up(Keys.BACKSPACE).perform()
+            else:
+                input_box.send_keys(ch)
+        input_box.send_keys(Keys.ENTER)
+        print("Message sent successfuly")
         time.sleep(1)
     except NoSuchElementException:
         return
@@ -86,7 +105,12 @@ def send_unsaved_contact_message():
     try:
         time.sleep(7)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
-        input_box.send_keys(message + Keys.ENTER)
+        for ch in message:
+            if ch == "\n":
+                ActionChains(browser).key_down(Keys.SHIFT).key_down(Keys.ENTER).key_up(Keys.ENTER).key_up(Keys.SHIFT).key_up(Keys.BACKSPACE).perform()
+            else:
+                input_box.send_keys(ch)
+        input_box.send_keys(Keys.ENTER)
         print("Message sent successfuly")
     except NoSuchElementException:
         print("Failed to send message")
@@ -251,3 +275,4 @@ if __name__ == "__main__":
     scheduler()
 
     # browser.quit()
+    
