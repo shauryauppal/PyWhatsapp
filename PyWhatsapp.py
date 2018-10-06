@@ -31,11 +31,14 @@ def input_contacts():
     unsaved_Contacts = []
     while True:
         # Enter your choice 1 or 2
-        print("1.Enter Saved Contact number->")
-        print("2.Enter Unsaved Contact number->")
-        x = int(input("Enter your choice(1 or 2):->"))
+        print("PLEASE CHOOSE ONE OF THE OPTIONS:\n")
+        print("1.Message to Saved Contact number")
+        print("2.Message to Unsaved Contact number\n")
+        x = int(input("Enter your choice(1 or 2):\n"))
+        print()
         if x == 1:
             n = int(input('Enter number of Contacts to add(count)->'))
+            print()
             for i in range(0,n):
                 inp = str(input("Enter contact name(text)->"))
                 inp = '"' + inp + '"'
@@ -43,36 +46,43 @@ def input_contacts():
                 Contact.append(inp)
         elif x == 2:
             n = int(input('Enter number of unsaved Contacts to add(count)->'))
+            print()
             for i in range(0,n):
                 # Example use: 919899123456, Don't use: +919899123456
                 # Reference : https://faq.whatsapp.com/en/android/26000030/
-                inp = str(input("Enter unsaved contact number with country code(interger)->"))
+                inp = str(input("Enter unsaved contact number with country code(interger):\n\nValid input: 91943xxxxx12\nInvalid input: +91943xxxxx12\n\n"))
                 # print (inp)
                 unsaved_Contacts.append(inp)
 
-        choi = input("Do you want to add more contacts(yes or no)->")
-        if choi == "no":
+        choi = input("Do you want to add more contacts(y/n)->")
+        if choi == "n":
             break
 
-    print("Saved contacts entered list->",Contact)
-    print("Unsaved numbers entered list->",unsaved_Contacts)
+    if len(Contact) != 0:
+        print("\nSaved contacts entered list->",Contact)
+    if len(unsaved_Contacts) != 0:
+        print("Unsaved numbers entered list->",unsaved_Contacts)
+    input("\nPress ENTER to continue...")
 
 def input_message():
     global message
     # Enter your Good Morning Msg
-    print("Enter the message and use the symbol '~' to end the message")
+    print()
+    print("Enter the message and use the symbol '~' to end the message:\nFor example: Hi, this is a test message~\n\nYour message: ")
     message = []
     temp = ""
     done = False
 
     while not done:
       temp = input()
-      if temp == "~":
+      if len(temp)!=0 and temp[-1] == "~":
         done = True
+        message.append(temp[:-1])
       else:
         message.append(temp)
     message = "\n".join(message)
-    # print(message)
+    print()
+    print(message)
 
 def whatsapp_login():
     global wait,browser,Link
@@ -275,4 +285,3 @@ if __name__ == "__main__":
     scheduler()
 
     # browser.quit()
-    
