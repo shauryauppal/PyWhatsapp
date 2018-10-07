@@ -24,18 +24,12 @@ docChoice = None
 doc_filename = None
 unsaved_Contacts = None
 
-def input_contacts():
+def input_contacts(x):
     global Contact,unsaved_Contacts
     # List of Contacts
     Contact = []
     unsaved_Contacts = []
     while True:
-        # Enter your choice 1 or 2
-        print("PLEASE CHOOSE ONE OF THE OPTIONS:\n")
-        print("1.Message to Saved Contact number")
-        print("2.Message to Unsaved Contact number\n")
-        x = int(input("Enter your choice(1 or 2):\n"))
-        print()
         if x == 1:
             n = int(input('Enter number of Contacts to add(count)->'))
             print()
@@ -91,6 +85,56 @@ def whatsapp_login():
     browser.get(Link)
     browser.maximize_window()
     print("QR scanned")
+
+def download_images():
+    global message,wait, browser
+    '''
+        Downloads all the images for contacts
+    '''
+    Contacts = []
+    n = int(input('Enter number of Contacts to add(count)->'))
+    print()
+    for i in range(0,n):
+        inp = str(input("Enter contact name(text)->"))
+        inp = '"' + inp + '"'
+        # print (inp)
+        Contacts.append(inp)
+    # Let us login and Scan
+    print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
+    whatsapp_login()
+
+    for i in Contacts:
+        x_arg = '//span[contains(@title,' + i + ')]'
+        group_title = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
+        group_title.click()
+        
+        header = browser.find_element_by_xpath('//header[@class="_3AwwN"]')
+        name = header.find_element_by_xpath('//div[@class="_1WBXd"]')
+        name.click()
+        
+        inside = wait.until(EC.visibility_of_element_located((By.XPATH, '//div[@class="_2VQzd"][@role="button"]')))
+        
+        inside.click()
+
+        images_div = wait.until(EC.visibility_of_any_elements_located((By.XPATH, '//div[@class="_2Ry6_"]')))
+    
+        for i in images_div:
+            time.sleep(1)
+            i.click()
+            while True:
+                try:
+                    d = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@title="Download"][@role="button"]')))
+                    d.click()
+                    break
+                except:
+                    time.sleep(1)
+                    continue
+            
+            c = browser.find_element_by_xpath('//div[@title="Close"][@role="button"]')
+            c.click()
+            time.sleep(1)
+        
+
 
 def send_message(target):
     global message,wait, browser
@@ -240,48 +284,63 @@ if __name__ == "__main__":
 
     print("Web Page Open")
 
-    # Append more contact as input to send messages
-    input_contacts()
-    # Enter the message you want to send
-    input_message()
+    print("PLEASE CHOOSE ONE OF THE OPTIONS:\n")
+    print("1.Message to Saved Contact number")
+    print("2.Message to Unsaved Contact number")
+    print("3.Download photos from a contact\n")
+    x = int(input("Enter your choice(1, 2 or 3):\n"))
+    print()
 
-    # If you want to schedule messages for
-    # a particular timing choose yes
-    # If no choosed instant message would be sent
-    isSchedule = input('Do you want to schedule your Message(yes/no):')
-    if(isSchedule=="yes"):
-        jobtime = input('input time in 24 hour (HH:MM) format - ')
+    if x == 1 or x == 2:
+        # Append more contact as input to send messages
+        input_contacts(x)
+        
+        # Enter the message you want to send
+        input_message()
 
-    #Send Attachment Media only Images/Video
-    choice = input("Would you like to send attachment(yes/no): ")
+        # If you want to schedule messages for
+        # a particular timing choose yes
+        # If no choosed instant message would be sent
+        isSchedule = input('Do you want to schedule your Message(yes/no):')
+        if(isSchedule=="yes"):
+            jobtime = input('input time in 24 hour (HH:MM) format - ')
 
-    docChoice = input("Would you file to send a Document file(yes/no): ")
-    if(docChoice == "yes"):
-        # Note the document file should be present in the Document Folder
-        doc_filename = input("Enter the Document file name you want to send: ")
+        #Send Attachment Media only Images/Video
+        choice = input("Would you like to send attachment(yes/no): ")
 
-    # Let us login and Scan
-    print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
-    whatsapp_login()
+        docChoice = input("Would you file to send a Document file(yes/no): ")
+        if(docChoice == "yes"):
+            # Note the document file should be present in the Document Folder
+            doc_filename = input("Enter the Document file name you want to send: ")
 
-    # Send message to all Contact List
-    # This sender is just for testing purpose to check script working or not.
-    # Scheduling works below.
-    # sender()
-    # Uncomment line 236 is case you want to test the program
+        # Let us login and Scan
+        print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
+        whatsapp_login()
 
-    if(isSchedule=="yes"):
-        schedule.every().day.at(jobtime).do(sender)
-    else:
-        sender()
+        # Send message to all Contact List
+        # This sender is just for testing purpose to check script working or not.
+        # Scheduling works below.
+        # sender()
+        # Uncomment line 236 is case you want to test the program
 
-    # First time message sending Task Complete
-    print("Task Completed")
+        if(isSchedule=="yes"):
+            schedule.every().day.at(jobtime).do(sender)
+        else:
+            sender()
 
-    # Messages are scheduled to send
-    # Default schedule to send attachment and greet the personal
-    # For GoodMorning, GoodNight and howareyou wishes
-    # Comment in case you don't want to send wishes or schedule
-    scheduler()
+        # First time message sending Task Complete
+        print("Task Completed")
+
+        # Messages are scheduled to send
+        # Default schedule to send attachment and greet the personal
+        # For GoodMorning, GoodNight and howareyou wishes
+        # Comment in case you don't want to send wishes or schedule
+        scheduler()
+    
+    elif x == 3:
+        download_images()
+    
+
+
 
     # browser.quit()
