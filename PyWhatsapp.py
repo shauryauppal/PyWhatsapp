@@ -88,9 +88,7 @@ def whatsapp_login():
 
 def download_images():
     global message,wait, browser
-    '''
-        Downloads all the images for contacts
-    '''
+    '''Downloads all the images for contacts'''
     Contacts = []
     n = int(input('Enter number of Contacts to add(count)->'))
     print()
@@ -112,28 +110,30 @@ def download_images():
         name = header.find_element_by_xpath('//div[@class="_1WBXd"]')
         name.click()
         
-        inside = wait.until(EC.visibility_of_element_located((By.XPATH, '//div[@class="_2VQzd"][@role="button"]')))
-        
-        inside.click()
+        try:
+            inside = wait.until(EC.visibility_of_element_located((By.XPATH, '//div[@class="_2VQzd"][@role="button"]')))
 
-        images_div = wait.until(EC.visibility_of_any_elements_located((By.XPATH, '//div[@class="_2Ry6_"]')))
-    
-        for i in images_div:
-            time.sleep(1)
-            i.click()
-            while True:
-                try:
-                    d = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@title="Download"][@role="button"]')))
-                    d.click()
-                    break
-                except:
-                    time.sleep(1)
-                    continue
-            
-            c = browser.find_element_by_xpath('//div[@title="Close"][@role="button"]')
-            c.click()
-            time.sleep(1)
-        
+            inside.click()
+
+            images_div = wait.until(EC.visibility_of_any_elements_located((By.XPATH, '//div[@class="_2Ry6_"]')))
+
+            for i in images_div:
+                time.sleep(1)
+                i.click()
+                while True:
+                    try:
+                        d = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@title="Download"][@role="button"]')))
+                        d.click()
+                        break
+                    except:
+                        time.sleep(1)
+                        continue
+
+                c = browser.find_element_by_xpath('//div[@title="Close"][@role="button"]')
+                c.click()
+                time.sleep(1)
+        except:
+            print("Contact has no image history with you")
 
 
 def send_message(target):
