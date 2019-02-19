@@ -86,7 +86,11 @@ def input_message():
 
 def whatsapp_login():
     global wait,browser,Link
-    browser = webdriver.Chrome()
+    chromeOptions = webdriver.ChromeOptions()
+    pref = {"download.default_directory" : r"C:\Users\shaur\Desktop\PyWhatsapp\InputImages\\"}
+    chromeOptions.add_experimental_option("prefs",pref)
+    browser = webdriver.Chrome(chrome_options = chromeOptions)
+    # browser = webdriver.Chrome()
     wait = WebDriverWait(browser, 600)
     browser.get(Link)
     browser.maximize_window()
@@ -126,7 +130,7 @@ def send_unsaved_contact_message():
         print("Failed to send message")
         return
 
-def send_attachment():
+def send_attachment(choice):
     # Attachment Drop Down Menu
     clipButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/div/span')
     clipButton.click()
@@ -137,18 +141,22 @@ def send_attachment():
     mediaButton.click()
     time.sleep(3)
 
-    hour = datetime.datetime.now().hour
+    if(choice=='yes'):
+        hour = datetime.datetime.now().hour
 
-    # After 5am and before 11am scheduled this.
-    if(hour >=5 and hour <=11):
-        image_path = os.getcwd() +"\\Media\\" + 'goodmorning.jpg'
-    # After 9pm and before 11pm schedule this
-    elif (hour>=21 and hour<=23):
-        image_path = os.getcwd() +"\\Media\\" + 'goodnight.jpg'
-    else: # At any other time schedule this.
-        image_path = os.getcwd() +"\\Media\\" + 'howareyou.jpg'
-    # print(image_path)
+        # After 5am and before 11am scheduled this.
+        if(hour >=5 and hour <=11):
+            image_path = os.getcwd() +"\\Media\\" + 'goodmorning.jpg'
+        # After 9pm and before 11pm schedule this
+        elif (hour>=21 and hour<=23):
+            image_path = os.getcwd() +"\\Media\\" + 'goodnight.jpg'
+        else: # At any other time schedule this.
+            image_path = os.getcwd() +"\\Media\\" + 'howareyou.jpg'
+        # print(image_path)
+        choice = 'no'
+    
 
+    image_path = os.getcwd() +"\\Results\images\\"+'0.jpg'
     autoit.control_focus("Open","Edit1")
     autoit.control_set_text("Open","Edit1",(image_path) )
     autoit.control_click("Open","Button1")
@@ -180,6 +188,47 @@ def send_files():
     whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
     whatsapp_send_button.click()
 
+def downloadImage():
+    header = browser.find_element_by_xpath('//header[@class="_3AwwN"]')
+    name = header.find_element_by_xpath('//div[@class="_1WBXd"]')
+    name.click()
+    try:
+        inside = wait.until(EC.visibility_of_element_located((By.XPATH, '//div[@class="_2VQzd"][@role="button"]')))
+        inside.click()
+        images_div = wait.until(EC.visibility_of_any_elements_located((By.XPATH, '//div[@class="_2Ry6_"]')))
+
+        for i in images_div:
+            time.sleep(7)
+            i.click()
+            time.sleep(2)
+            try:
+                time.sleep(5)
+                d = wait.until(EC.element_to_be_clickable((By.XPATH, '//div[@title="Download"][@role="button"]')))
+                d.click()
+                time.sleep(2)
+                c = browser.find_element_by_xpath('//div[@title="Close"][@role="button"]')
+                c.click()
+                time.sleep(1)
+                return
+            except:
+                time.sleep(1)
+                c = browser.find_element_by_xpath('//div[@title="Close"][@role="button"]')
+                c.click()
+                return
+    except:
+        print("Contact has no images history with you")
+
+def rename_folder():
+    i = 0
+    file = "Results/images/"
+    for filename in os.listdir(file): 
+        dst =str(i) + ".jpg"
+        src =file + filename 
+        dst =file + dst 
+        # rename() function will 
+        # rename all the files 
+        os.rename(src, dst) 
+        i += 1
 
 def sender():
     global Contact,choice, docChoice, unsaved_Contacts
@@ -188,7 +237,7 @@ def sender():
         print("Message sent to ",i)
         if(choice=="yes"):
             try:
-                send_attachment()
+                send_attachment(choice)
             except:
                 print('Attachment not sent.')
         if(docChoice == "yes"):
@@ -229,6 +278,17 @@ schedule.every().day.at("22:00").do( sender )
 # Example Schedule for a particular day of week Monday
 schedule.every().monday.at("08:00").do(sender)
 
+def delete_file():
+    file = "Results/images/"
+    try: 
+        for i in os.listdir(file):
+            os.remove(file + i)
+
+        file = "InputImages/"
+        for i in os.listdir(file):
+            os.remove(file + i)
+    except: pass
+
 
 # To schedule your msgs
 def scheduler():
@@ -252,13 +312,26 @@ if __name__ == "__main__":
     if(isSchedule=="yes"):
         jobtime = input('input time in 24 hour (HH:MM) format - ')
 
-    #Send Attachment Media only Images/Video
+    # Send Attachment Media only Images/Video
     choice = input("Would you like to send attachment(yes/no): ")
 
     docChoice = input("Would you file to send a Document file(yes/no): ")
     if(docChoice == "yes"):
         # Note the document file should be present in the Document Folder
         doc_filename = input("Enter the Document file name you want to send: ")
+
+    # Apply Neural Style Transfer
+    dostyletransfer = input('Do you want to apply Neural Style Transfer(yes/no): ')
+    if(dostyletransfer=="yes"):
+        styletype = int(input('Enter the Style Type number(int) you want to Apply\n1.Rain Princess\n2.La muse\n3.Udnie\n4.Scream'))
+        if(styletype==1):
+            styletype = 'rain_princess'
+        elif(styletype==2):
+            styletype = 'la_muse'
+        elif(styletype==3):
+            styletype = 'udnie'
+        else:
+            styletype = 'scream'
 
     # Let us login and Scan
     print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
@@ -268,12 +341,24 @@ if __name__ == "__main__":
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
     # sender()
-    # Uncomment line 236 is case you want to test the program
+    # Uncomment line above in case you want to test the program
 
     if(isSchedule=="yes"):
         schedule.every().day.at(jobtime).do(sender)
     else:
         sender()
+
+    time.sleep(10)
+
+    if(dostyletransfer == "yes"):
+        downloadImage()
+        os.system('python evaluate.py --checkpoint Model/'+styletype+'.ckpt --in-path InputImages/ --out-path results/images/ --allow-different-dimensions')
+        time.sleep(1)
+        rename_folder()
+        time.sleep(5)
+        send_attachment()
+        delete_file()
+        # styletransferImage()
 
     # First time message sending Task Complete
     print("Task Completed")
