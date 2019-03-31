@@ -6,10 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
-try:
-    import autoit
-except:
-    pass
+import autoit
 import time
 import datetime
 import os
@@ -98,6 +95,7 @@ def whatsapp_login():
 
 def send_message(target):
     global message,wait, browser
+    time.sleep(2)
     try:
         x_arg = '//span[contains(@title,' + target + ')]'
         group_title = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
@@ -189,13 +187,13 @@ def send_files():
     whatsapp_send_button.click()
 
 def downloadImage():
-    header = browser.find_element_by_xpath('//header[@class="_3AwwN"]')
-    name = header.find_element_by_xpath('//div[@class="_1WBXd"]')
-    name.click()
+    header = browser.find_element_by_xpath('//*[@id="main"]/header/div[2]')
+    #name = header.find_element_by_xpath('//div[@class="_1WBXd"]')
+    header.click()
     try:
         inside = wait.until(EC.visibility_of_element_located((By.XPATH, '//div[@class="_2VQzd"][@role="button"]')))
         inside.click()
-        images_div = wait.until(EC.visibility_of_any_elements_located((By.XPATH, '//div[@class="_2Ry6_"]')))
+        images_div = wait.until(EC.visibility_of_any_elements_located((By.XPATH, '//*[@id="app"]/div/div/div[2]/div[3]/span/div/span/div/div[2]/span/div/div/div/div[1]/div[2]')))
 
         for i in images_div:
             time.sleep(7)
@@ -356,7 +354,7 @@ if __name__ == "__main__":
         time.sleep(1)
         rename_folder()
         time.sleep(5)
-        send_attachment()
+        send_attachment(choice)
         delete_file()
         # styletransferImage()
 
