@@ -1,4 +1,5 @@
 language: python
+os: windows
 python:
   - "2.7"      # current default Python on Travis CI
 
