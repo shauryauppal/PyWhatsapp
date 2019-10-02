@@ -4,12 +4,7 @@ python: "3.7"
 before_install:
       - choco install python3
       - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
-      - mkdir /home/travis/virtualenv/python2.7.12/bin
       - python -m pip install --upgrade pip wheel
-      - wget http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-      - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python2.7.12/bin/
-      - export CHROME_BIN=chromium-browser
 
 
-install:
-  - pip install -r requirements.txt
+
