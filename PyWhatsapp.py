@@ -204,6 +204,8 @@ def sender():
             browser.get(link)
             time.sleep(1)
             browser.find_element_by_xpath('//*[@id="action-button"]').click()
+            time.sleep(2)
+            browser.find_element_by_xpath('//*[@id="content"]/div/div/div/a').click()
             time.sleep(4)
             print("Sending message to", i)
             send_unsaved_contact_message()
