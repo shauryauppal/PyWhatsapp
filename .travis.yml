@@ -1,5 +1,7 @@
-language: python
 os: windows
-python:
-  - "2.7"      # current default Python on Travis CI
-
+language: sh
+python: "3.7"
+before_install:
+      - choco install python3
+      - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
+      - python -m pip install --upgrade pip wheel
