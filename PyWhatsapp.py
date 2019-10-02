@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options 
 try:
     import autoit
 except:
@@ -13,6 +14,7 @@ except:
 import time
 import datetime
 import os
+
 
 browser = None
 Contact = None
@@ -86,7 +88,9 @@ def input_message():
 
 def whatsapp_login():
     global wait,browser,Link
-    browser = webdriver.Chrome()
+    chrome_options = Options()  
+    chrome_options.add_argument('--user-data-dir=./User_Data')
+    browser = webdriver.Chrome(options=chrome_options)
     wait = WebDriverWait(browser, 600)
     browser.get(Link)
     browser.maximize_window()
