@@ -1,6 +1,7 @@
 os: windows
 language: sh
 python: "3.7"
+mkdir: /home/travis/virtualenv/python2.7.12/bin
 echo $PATH
 before_install:
       - choco install python3
