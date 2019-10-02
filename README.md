@@ -66,6 +66,11 @@ everything default. Few clicks on Next and you are done.
 
 ---
 
+## Feature Enhancement: 
+QR CODE Scanning: On receiving a lot of complaints about QR Code Scanning Issue again and again. I have added a Cookie system that will save your session so that whatsapp don't think you are login for first time. By Saving Session data you will have to scan QR Code to Login only once or till the time whatsapp doesnot log you out from whatsappweb.
+
+NOTE: A folder User_Data will be created which has all your session information. Keep this Folder VERY SAFE. 
+
 ## Code:
 ### input_contacts()
 
