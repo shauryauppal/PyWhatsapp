@@ -15,7 +15,6 @@ import time
 import datetime
 import os
 
-
 browser = None
 Contact = None
 message = None
@@ -100,8 +99,15 @@ def send_message(target):
     global message,wait, browser
     try:
         x_arg = '//span[contains(@title,' + target + ')]'
-        group_title = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
-        group_title.click()
+        ct = 0
+        while ct!=10:
+            try:
+                group_title = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
+                group_title.click()
+                break
+            except:
+                ct+=1
+                time.sleep(3)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
             if ch == "\n":
