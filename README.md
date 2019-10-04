@@ -31,6 +31,7 @@ OR
 >
 >$ pip install PyAutoIt
 
+###### NOTE: If there is any issue in installation of pyautoit then clone the repo and install from repo. [LINK](https://github.com/jacexh/pyautoit)
 ---
 
 ### Platform: Windows
