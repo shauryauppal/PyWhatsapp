@@ -6,10 +6,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.options import Options 
+from selenium.webdriver.chrome.options import Options
 try:
     import autoit
-except:
+except ModuleNotFoundError:
     pass
 import time
 import datetime
@@ -25,8 +25,9 @@ docChoice = None
 doc_filename = None
 unsaved_Contacts = None
 
+
 def input_contacts():
-    global Contact,unsaved_Contacts
+    global Contact, unsaved_Contacts
     # List of Contacts
     Contact = []
     unsaved_Contacts = []
@@ -40,7 +41,7 @@ def input_contacts():
         if x == 1:
             n = int(input('Enter number of Contacts to add(count)->'))
             print()
-            for i in range(0,n):
+            for i in range(0, n):
                 inp = str(input("Enter contact name(text)->"))
                 inp = '"' + inp + '"'
                 # print (inp)
@@ -48,7 +49,7 @@ def input_contacts():
         elif x == 2:
             n = int(input('Enter number of unsaved Contacts to add(count)->'))
             print()
-            for i in range(0,n):
+            for i in range(0, n):
                 # Example use: 919899123456, Don't use: +919899123456
                 # Reference : https://faq.whatsapp.com/en/android/26000030/
                 inp = str(input("Enter unsaved contact number with country code(interger):\n\nValid input: 91943xxxxx12\nInvalid input: +91943xxxxx12\n\n"))
@@ -60,10 +61,11 @@ def input_contacts():
             break
 
     if len(Contact) != 0:
-        print("\nSaved contacts entered list->",Contact)
+        print("\nSaved contacts entered list->", Contact)
     if len(unsaved_Contacts) != 0:
-        print("Unsaved numbers entered list->",unsaved_Contacts)
+        print("Unsaved numbers entered list->", unsaved_Contacts)
     input("\nPress ENTER to continue...")
+
 
 def input_message():
     global message
@@ -75,19 +77,20 @@ def input_message():
     done = False
 
     while not done:
-      temp = input()
-      if len(temp)!=0 and temp[-1] == "~":
-        done = True
-        message.append(temp[:-1])
-      else:
-        message.append(temp)
+        temp = input()
+        if len(temp) != 0 and temp[-1] == "~":
+            done = True
+            message.append(temp[:-1])
+        else:
+            message.append(temp)
     message = "\n".join(message)
     print()
     print(message)
 
+
 def whatsapp_login():
-    global wait,browser,Link
-    chrome_options = Options()  
+    global wait, browser, Link
+    chrome_options = Options()
     chrome_options.add_argument('--user-data-dir=./User_Data')
     browser = webdriver.Chrome(options=chrome_options)
     wait = WebDriverWait(browser, 600)
@@ -95,18 +98,19 @@ def whatsapp_login():
     browser.maximize_window()
     print("QR scanned")
 
+
 def send_message(target):
-    global message,wait, browser
+    global message, wait, browser
     try:
         x_arg = '//span[contains(@title,' + target + ')]'
         ct = 0
-        while ct!=10:
+        while ct != 10:
             try:
                 group_title = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
                 group_title.click()
                 break
             except:
-                ct+=1
+                ct += 1
                 time.sleep(3)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
@@ -119,6 +123,7 @@ def send_message(target):
         time.sleep(1)
     except NoSuchElementException:
         return
+
 
 def send_unsaved_contact_message():
     global message
@@ -136,6 +141,7 @@ def send_unsaved_contact_message():
         print("Failed to send message")
         return
 
+
 def send_attachment():
     # Attachment Drop Down Menu
     clipButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/div/span')
@@ -150,24 +156,26 @@ def send_attachment():
     hour = datetime.datetime.now().hour
 
     # After 5am and before 11am scheduled this.
-    if(hour >=5 and hour <=11):
-        image_path = os.getcwd() +"\\Media\\" + 'goodmorning.jpg'
+    if(hour >= 5 and hour <= 11):
+        image_path = os.getcwd() + "\\Media\\" + 'goodmorning.jpg'
     # After 9pm and before 11pm schedule this
-    elif (hour>=21 and hour<=23):
-        image_path = os.getcwd() +"\\Media\\" + 'goodnight.jpg'
-    else: # At any other time schedule this.
-        image_path = os.getcwd() +"\\Media\\" + 'howareyou.jpg'
+    elif (hour >= 21 and hour <= 23):
+        image_path = os.getcwd() + "\\Media\\" + 'goodnight.jpg'
+    else:  # At any other time schedule this.
+        image_path = os.getcwd() + "\\Media\\" + 'howareyou.jpg'
     # print(image_path)
 
-    autoit.control_focus("Open","Edit1")
-    autoit.control_set_text("Open","Edit1",(image_path) )
-    autoit.control_click("Open","Button1")
+    autoit.control_focus("Open", "Edit1")
+    autoit.control_set_text("Open", "Edit1", (image_path))
+    autoit.control_click("Open", "Button1")
 
     time.sleep(3)
     whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
     whatsapp_send_button.click()
 
-#Function to send Documents(PDF, Word file, PPT, etc.)
+# Function to send Documents(PDF, Word file, PPT, etc.)
+
+
 def send_files():
     global doc_filename
     # Attachment Drop Down Menu
@@ -182,9 +190,9 @@ def send_files():
 
     docPath = os.getcwd() + "\\Documents\\" + doc_filename
 
-    autoit.control_focus("Open","Edit1")
-    autoit.control_set_text("Open","Edit1",(docPath) )
-    autoit.control_click("Open","Button1")
+    autoit.control_focus("Open", "Edit1")
+    autoit.control_set_text("Open", "Edit1", (docPath))
+    autoit.control_click("Open", "Button1")
 
     time.sleep(3)
     whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
@@ -192,11 +200,11 @@ def send_files():
 
 
 def sender():
-    global Contact,choice, docChoice, unsaved_Contacts
+    global Contact, choice, docChoice, unsaved_Contacts
     for i in Contact:
         send_message(i)
-        print("Message sent to ",i)
-        if(choice=="yes"):
+        print("Message sent to ", i)
+        if(choice == "yes"):
             try:
                 send_attachment()
             except:
@@ -207,9 +215,9 @@ def sender():
             except:
                 print('Files not sent')
     time.sleep(5)
-    if len(unsaved_Contacts)>0:
+    if len(unsaved_Contacts) > 0:
         for i in unsaved_Contacts:
-            link = "https://wa.me/"+i
+            link = "https://wa.me/" + i
             #driver  = webdriver.Chrome()
             browser.get(link)
             time.sleep(1)
@@ -219,7 +227,7 @@ def sender():
             time.sleep(4)
             print("Sending message to", i)
             send_unsaved_contact_message()
-            if(choice=="yes"):
+            if(choice == "yes"):
                 try:
                     send_attachment()
                 except:
@@ -231,12 +239,13 @@ def sender():
                     print('Files not sent')
             time.sleep(7)
 
+
 # For GoodMorning Image and Message
-schedule.every().day.at("07:00").do( sender )
+schedule.every().day.at("07:00").do(sender)
 # For How are you message
-schedule.every().day.at("13:35").do( sender )
+schedule.every().day.at("13:35").do(sender)
 # For GoodNight Image and Message
-schedule.every().day.at("22:00").do( sender )
+schedule.every().day.at("22:00").do(sender)
 
 # Example Schedule for a particular day of week Monday
 schedule.every().monday.at("08:00").do(sender)
@@ -247,6 +256,7 @@ def scheduler():
     while True:
         schedule.run_pending()
         time.sleep(1)
+
 
 if __name__ == "__main__":
 
@@ -261,10 +271,10 @@ if __name__ == "__main__":
     # a particular timing choose yes
     # If no choosed instant message would be sent
     isSchedule = input('Do you want to schedule your Message(yes/no):')
-    if(isSchedule=="yes"):
+    if(isSchedule == "yes"):
         jobtime = input('input time in 24 hour (HH:MM) format - ')
 
-    #Send Attachment Media only Images/Video
+    # Send Attachment Media only Images/Video
     choice = input("Would you like to send attachment(yes/no): ")
 
     docChoice = input("Would you file to send a Document file(yes/no): ")
@@ -282,7 +292,7 @@ if __name__ == "__main__":
     # sender()
     # Uncomment line 236 is case you want to test the program
 
-    if(isSchedule=="yes"):
+    if(isSchedule == "yes"):
         schedule.every().day.at(jobtime).do(sender)
     else:
         sender()
