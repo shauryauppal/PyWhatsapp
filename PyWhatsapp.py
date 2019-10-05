@@ -26,39 +26,66 @@ doc_filename = None
 unsaved_Contacts = None
 
 
+def import_from_file():
+    global Contact, unsaved_Contacts
+    with open("contacts.txt", "r") as file:
+        temp = []
+        saved_data = []
+        data = file.read()
+        for char in data:
+            if char != "\n":
+                temp.append(char)
+            else:
+                if len(temp) != 0:
+                    saved_data.append(("".join(temp)).strip())
+                    temp = []
+        index_1 = saved_data.index("[Saved]")
+        index_2 = saved_data.index("[Unsaved]")
+        if index_1 < index_2:
+            Contact = saved_data[index_1 + 1: index_2]
+            unsaved_Contacts = [int(i) for i in saved_data[index_2 + 1:]]
+        else:
+            unsaved_Contacts = [int(i) for i in saved_data[index_2 + 1: index_1]]
+            Contact = saved_data[index_1 + 1:]
+
+
 def input_contacts():
     global Contact, unsaved_Contacts
     # List of Contacts
     Contact = []
     unsaved_Contacts = []
-    while True:
-        # Enter your choice 1 or 2
-        print("PLEASE CHOOSE ONE OF THE OPTIONS:\n")
-        print("1.Message to Saved Contact number")
-        print("2.Message to Unsaved Contact number\n")
-        x = int(input("Enter your choice(1 or 2):\n"))
-        print()
-        if x == 1:
-            n = int(input('Enter number of Contacts to add(count)->'))
+    if os.path.exists("contacts.txt"):
+        print("'contacts.txt' found , importing contacts from it...")
+        import_from_file()
+    else:
+        while True:
+            # Enter your choice 1 or 2
+            print("PLEASE CHOOSE ONE OF THE OPTIONS:\n")
+            print("1.Message to Saved Contact number")
+            print("2.Message to Unsaved Contact number\n")
+            x = int(input("Enter your choice(1 or 2):\n"))
             print()
-            for i in range(0, n):
-                inp = str(input("Enter contact name(text)->"))
-                inp = '"' + inp + '"'
-                # print (inp)
-                Contact.append(inp)
-        elif x == 2:
-            n = int(input('Enter number of unsaved Contacts to add(count)->'))
-            print()
-            for i in range(0, n):
-                # Example use: 919899123456, Don't use: +919899123456
-                # Reference : https://faq.whatsapp.com/en/android/26000030/
-                inp = str(input("Enter unsaved contact number with country code(interger):\n\nValid input: 91943xxxxx12\nInvalid input: +91943xxxxx12\n\n"))
-                # print (inp)
-                unsaved_Contacts.append(inp)
+            if x == 1:
+                n = int(input('Enter number of Contacts to add(count)->'))
+                print()
+                for i in range(0, n):
+                    inp = str(input("Enter contact name(text)->"))
+                    inp = '"' + inp + '"'
+                    # print (inp)
+                    Contact.append(inp)
+            elif x == 2:
+                n = int(input('Enter number of unsaved Contacts to add(count)->'))
+                print()
+                for i in range(0, n):
+                    # Example use: 919899123456, Don't use: +919899123456
+                    # Reference : https://faq.whatsapp.com/en/android/26000030/
+                    inp = str(input("Enter unsaved contact number with country code(interger):\n\nValid input: 91943xxxxx12\nInvalid input: +91943xxxxx12\n\n"))
+                    # print (inp)
+                    unsaved_Contacts.append(inp)
 
-        choi = input("Do you want to add more contacts(y/n)->")
-        if choi == "n":
-            break
+            choi = input("Do you want to add more contacts(y/n)->")
+            if choi == "n":
+                break
 
     if len(Contact) != 0:
         print("\nSaved contacts entered list->", Contact)
