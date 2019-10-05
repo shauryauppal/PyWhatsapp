@@ -32,6 +32,7 @@ def import_from_file():
         temp = []
         saved_data = []
         data = file.read()
+        # This iteration stores text of every new line of file to "saved_data" variable
         for char in data:
             if char != "\n":
                 temp.append(char)
@@ -39,8 +40,13 @@ def import_from_file():
                 if len(temp) != 0:
                     saved_data.append(("".join(temp)).strip())
                     temp = []
+        # Extra condition needed , in case there is no "\n" at end of last contact
+        if data[-1] != "\n" :
+            saved_data.append(("".join(temp)).strip())
+
         index_1 = saved_data.index("[Saved]")
         index_2 = saved_data.index("[Unsaved]")
+        # Segregate contacts between [Saved] and [Unsaved] on basis of their position b/w or outside the strings
         if index_1 < index_2:
             Contact = saved_data[index_1 + 1: index_2]
             unsaved_Contacts = [int(i) for i in saved_data[index_2 + 1:]]
