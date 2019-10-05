@@ -46,7 +46,7 @@ def import_from_file():
 
         index_1 = saved_data.index("[Saved]")
         index_2 = saved_data.index("[Unsaved]")
-        # Segregate contacts between [Saved] and [Unsaved] on basis of their position b/w or outside the strings
+        # Segregate contacts between Saved and Unsaved on basis of their position b/w or after the strings "[Saved]" and "[Unsaved]"
         if index_1 < index_2:
             Contact = saved_data[index_1 + 1: index_2]
             unsaved_Contacts = [int(i) for i in saved_data[index_2 + 1:]]
