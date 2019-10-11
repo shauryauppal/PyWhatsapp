@@ -1,0 +1,14 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+schedule = "==0.5.0"
+selenium = "==3.13.0"
+PyAutoIt = "==0.4"
+
+[requires]
+python_version = "3.7"

@@ -1,4 +1,4 @@
-import time, os
+import time, os, datetime, schedule
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -40,19 +40,17 @@ class PyWhatsApp:
             if choice == 1:
                 num_of_contacts = int(input('Enter number of Contacts to add(count)->'))
                 print()
-                for num in num_of_contacts:
+                for num in range(0, num_of_contacts):
                     contact_name = str(input("Enter contact name(text)->"))
                     contact_number = '"' + contact_name + '"'
-                    # print (inp)
                     self.contact.append(contact_name)
             elif choice == 2:
                 num_of_unsaved_contacts = int(input('Enter number of unsaved Contacts to add(count)->'))
                 print()
-                for num in num_of_unsaved_contacts:
+                for num in range(0, num_of_unsaved_contacts):
                     # Echoicexample use: 919899123456, Don't use: +919899123456
                     # Reference : https://faq.whatsapp.com/en/android/26000030/
                     contact_number = str(input("Enter unsaved contact number with country code(interger):\n\nValid input: 91943xxxxx12\nInvalid input: +91943xxxxx12\n\n"))
-                    # print (inp)
                     self.unsaved_contacts.append(contact_number)
 
             choice = input("Do you want to add more contacts(y/n)->")
@@ -227,3 +225,14 @@ class PyWhatsApp:
                     except:
                         print('Files not sent')
                 time.sleep(7)
+
+    def schedules(self):
+        # For GoodMorning Image and Message
+        schedule.every().day.at("07:00").do(self.sender)
+        # For How are you message
+        schedule.every().day.at("13:35").do(self.sender)
+        # For GoodNight Image and Message
+        schedule.every().day.at("22:00").do(self.sender)
+
+        # Example Schedule for a particular day of week Monday
+        schedule.every().monday.at("08:00").do(self.sender)

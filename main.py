@@ -1,36 +1,18 @@
 import schedule
 
-
-
-
-
-
-# For GoodMorning Image and Message
-schedule.every().day.at("07:00").do(sender)
-# For How are you message
-schedule.every().day.at("13:35").do(sender)
-# For GoodNight Image and Message
-schedule.every().day.at("22:00").do(sender)
-
-# Example Schedule for a particular day of week Monday
-schedule.every().monday.at("08:00").do(sender)
-
-
-# To schedule your msgs
-def scheduler():
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+from pywhatsapp.scheduler import scheduler
+from pywhatsapp.client import client
 
 
 if __name__ == "__main__":
-
+    _client = client()
+    _client.schedules()
     print("Web Page Open")
 
     # Append more contact as input to send messages
-    input_contacts()
+    _client.input_contacts()
     # Enter the message you want to send
-    input_message()
+    _client.input_message()
 
     # If you want to schedule messages for
     # a particular timing choose yes
@@ -40,16 +22,16 @@ if __name__ == "__main__":
         jobtime = input('input time in 24 hour (HH:MM) format - ')
 
     # Send Attachment Media only Images/Video
-    choice = input("Would you like to send attachment(yes/no): ")
+    _client.choice = input("Would you like to send attachment(yes/no): ")
 
-    docChoice = input("Would you file to send a Document file(yes/no): ")
-    if(docChoice == "yes"):
+    _client.docChoice = input("Would you file to send a Document file(yes/no): ")
+    if(_client.docChoice == "yes"):
         # Note the document file should be present in the Document Folder
         doc_filename = input("Enter the Document file name you want to send: ")
 
     # Let us login and Scan
     print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
-    whatsapp_login()
+    _client.whatsapp_login()
 
     # Send message to all Contact List
     # This sender is just for testing purpose to check script working or not.
@@ -58,9 +40,9 @@ if __name__ == "__main__":
     # Uncomment line 236 is case you want to test the program
 
     if(isSchedule == "yes"):
-        schedule.every().day.at(jobtime).do(sender)
+        schedule.every().day.at(jobtime).do(_client.sender)
     else:
-        sender()
+        _client.sender()
 
     # First time message sending Task Complete
     print("Task Completed")
@@ -72,3 +54,6 @@ if __name__ == "__main__":
     scheduler()
 
     # browser.quit()
+
+
+
