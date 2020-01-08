@@ -48,7 +48,7 @@ Remove the ChromeDriverused in the repository and install <a href =
 >  ChromeDriver Path in MacOS</a>
 
 ---
-### For Sending Attachments you need to Install AutoIt (Optional if you only what to send messages) | (Only FOR WINDOWS USERS):
+### For Sending Attachments you need to Install AutoIt (Optional, if you only want to send messages) | (Only FOR WINDOWS USERS):
 
 You may install from the links given below or Install from the folder
 named "Install AutoIt for Sending Attachments" in the repository.
