@@ -170,7 +170,7 @@ def send_attachment():
     autoit.control_click("Open", "Button1")
 
     time.sleep(3)
-    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
+    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
     whatsapp_send_button.click()
 
 # Function to send Documents(PDF, Word file, PPT, etc.)
@@ -195,7 +195,7 @@ def send_files():
     autoit.control_click("Open", "Button1")
 
     time.sleep(3)
-    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
+    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
     whatsapp_send_button.click()
 
 
