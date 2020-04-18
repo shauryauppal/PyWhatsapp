@@ -73,6 +73,15 @@ QR CODE Scanning: On receiving a lot of complaints about QR Code Scanning Issue 
 NOTE: A folder User_Data will be created which has all your session information. Keep this Folder VERY SAFE. 
 
 ## Code:
+### Added ArgParser
+`python3 PyWhatsapp.py --help`<br>
+  --chrome_driver_path (required) CHROME_DRIVER_PATH chromedriver executable path (MAC and Windows path would be different) <br>
+  --message (optional) MESSAGE Enter the msg you want to send <br>
+  --remove_cache (optional) REMOVE_CACHE Remove Cache | Scan QR again or Not <br>
+
+For Windows: `python3 PyWhatsapp.py --chrome_driver_path './chromedriver.exe' --message 'Hi Shaurya, How Are you?'`
+<br>For MACOS: `python3 PyWhatsapp.py --chrome_driver_path './chromedriver' --message 'Hi Shaurya, How Are you?'`
+
 ### input_contacts()
 
 In this functions Contacts list can be hardcoded or you can give input
