@@ -194,6 +194,7 @@ href="https://github.com/shauryauppal/PyWhatsapp/blob/master/LICENSE">LICENSE</a
 
 ## Author:
 ## <a href="https://www.linkedin.com/in/shaurya-uppal/">Shaurya Uppal</a>
+## Endorse me at LinkedIn if this project was helpful. [![Linkedin](https://i.stack.imgur.com/gVE0j.png) LinkedIn](https://www.linkedin.com/in/shaurya-uppal/)
 
 shauryauppal00111@gmail.com
 
