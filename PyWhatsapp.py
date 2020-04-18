@@ -14,17 +14,25 @@ except ModuleNotFoundError:
 import time
 import datetime
 import os
+import argparse
 
+parser = argparse.ArgumentParser(description='PyWhatsapp Guide')
+parser.add_argument('--chrome_driver_path', action='store', type=str, default='./chromedriver.exe', help='chromedriver executable path (MAC and Windows path would be different)')
+parser.add_argument('--message', action='store', type=str, default='', help='Enter the msg you want to send')
+parser.add_argument('--remove_cache', action='store', type=str, default='False', help='Remove Cache | Scan QR again or Not')
+args = parser.parse_args()
+
+if args.remove_cache == 'True':
+    os.system('rm -rf User_Data/*')
 browser = None
 Contact = None
-message = None
+message = None if args.message == '' else args.message
 Link = "https://web.whatsapp.com/"
 wait = None
 choice = None
 docChoice = None
 doc_filename = None
 unsaved_Contacts = None
-
 
 def input_contacts():
     global Contact, unsaved_Contacts
@@ -88,11 +96,11 @@ def input_message():
     print(message)
 
 
-def whatsapp_login():
+def whatsapp_login(chrome_path):
     global wait, browser, Link
     chrome_options = Options()
     chrome_options.add_argument('--user-data-dir=./User_Data')
-    browser = webdriver.Chrome(options=chrome_options)
+    browser = webdriver.Chrome(executable_path=chrome_path, options=chrome_options)
     wait = WebDriverWait(browser, 600)
     browser.get(Link)
     browser.maximize_window()
@@ -152,9 +160,7 @@ def send_attachment():
     mediaButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/span/div/div/ul/li[1]/button')
     mediaButton.click()
     time.sleep(3)
-
     hour = datetime.datetime.now().hour
-
     # After 5am and before 11am scheduled this.
     if(hour >= 5 and hour <= 11):
         image_path = os.getcwd() + "\\Media\\" + 'goodmorning.jpg'
@@ -166,15 +172,14 @@ def send_attachment():
     # print(image_path)
 
     autoit.control_focus("Open", "Edit1")
-    autoit.control_set_text("Open", "Edit1", (image_path))
+    autoit.control_set_text("Open", "Edit1", image_path)
     autoit.control_click("Open", "Button1")
 
     time.sleep(3)
-    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
+    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
     whatsapp_send_button.click()
 
 # Function to send Documents(PDF, Word file, PPT, etc.)
-
 
 def send_files():
     global doc_filename
@@ -193,11 +198,9 @@ def send_files():
     autoit.control_focus("Open", "Edit1")
     autoit.control_set_text("Open", "Edit1", (docPath))
     autoit.control_click("Open", "Button1")
-
     time.sleep(3)
-    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
+    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
     whatsapp_send_button.click()
-
 
 def sender():
     global Contact, choice, docChoice, unsaved_Contacts
@@ -217,14 +220,9 @@ def sender():
     time.sleep(5)
     if len(unsaved_Contacts) > 0:
         for i in unsaved_Contacts:
-            link = "https://wa.me/" + i
+            link = "https://web.whatsapp.com/send?phone={}&text&source&data&app_absent".format(i)
             #driver  = webdriver.Chrome()
             browser.get(link)
-            time.sleep(1)
-            browser.find_element_by_xpath('//*[@id="action-button"]').click()
-            time.sleep(2)
-            browser.find_element_by_xpath('//*[@id="fallback_block"]/div/div/a').click()
-            time.sleep(4)
             print("Sending message to", i)
             send_unsaved_contact_message()
             if(choice == "yes"):
@@ -239,7 +237,6 @@ def sender():
                     print('Files not sent')
             time.sleep(7)
 
-
 # For GoodMorning Image and Message
 schedule.every().day.at("07:00").do(sender)
 # For How are you message
@@ -249,7 +246,6 @@ schedule.every().day.at("22:00").do(sender)
 
 # Example Schedule for a particular day of week Monday
 schedule.every().monday.at("08:00").do(sender)
-
 
 # To schedule your msgs
 def scheduler():
@@ -264,8 +260,9 @@ if __name__ == "__main__":
 
     # Append more contact as input to send messages
     input_contacts()
-    # Enter the message you want to send
-    input_message()
+    if message == None:
+        # Enter the message you want to send
+        input_message()
 
     # If you want to schedule messages for
     # a particular timing choose yes
@@ -284,14 +281,11 @@ if __name__ == "__main__":
 
     # Let us login and Scan
     print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
-    whatsapp_login()
+    whatsapp_login(args.chrome_driver_path)
 
     # Send message to all Contact List
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
-    # sender()
-    # Uncomment line 236 is case you want to test the program
-
     if(isSchedule == "yes"):
         schedule.every().day.at(jobtime).do(sender)
     else:
@@ -305,5 +299,4 @@ if __name__ == "__main__":
     # For GoodMorning, GoodNight and howareyou wishes
     # Comment in case you don't want to send wishes or schedule
     scheduler()
-
     # browser.quit()
