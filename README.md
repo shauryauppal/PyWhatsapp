@@ -19,6 +19,11 @@ messages and sleep peacefully.
 
 ---
 
+###### PyWhatsapp is being sponsored by the following tool; please help to support us by taking a look and signing up to a free trial
+<a href="https://tracking.gitads.io/?repo=PyWhatsapp"> <img src="https://images.gitads.io/PyWhatsapp" alt="GitAds" width="580" height="200"/> </a>
+
+---
+
 ## Installation
 
 >$ pip install -r requirements.txt
