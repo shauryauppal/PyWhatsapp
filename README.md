@@ -17,13 +17,6 @@ at a particular time to our loved ones. We can set reminders. Suppose at
 12 o'clock you want to wish your friend happy birthday so schedule your
 messages and sleep peacefully.
 
----
-
-###### PyWhatsapp is being sponsored by the following tool; please help to support us by taking a look and signing up to a free trial
-<a href="https://tracking.gitads.io/?repo=PyWhatsapp"> <img src="https://images.gitads.io/PyWhatsapp" alt="GitAds" width="580" height="200"/> </a>
-
----
-
 ## Installation
 
 >$ pip install -r requirements.txt
@@ -170,6 +163,11 @@ schedule.every().day.at("08:30").do(sender)
 *   You make change these schedule days and time according to you.
 
 ---
+
+<a href="https://tracking.gitads.io/?repo=PyWhatsapp"> <img src="https://images.gitads.io/PyWhatsapp" alt="GitAds" width="580" height="200"/> </a>
+
+---
+
 
 ### Input Screenshot:
 <img
