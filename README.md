@@ -164,10 +164,6 @@ schedule.every().day.at("08:30").do(sender)
 
 ---
 
-<a href="https://tracking.gitads.io/?repo=PyWhatsapp"> <img src="https://images.gitads.io/PyWhatsapp" alt="GitAds" width="580" height="200"/> </a>
-
----
-
 
 ### Input Screenshot:
 <img
