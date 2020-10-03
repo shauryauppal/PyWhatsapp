@@ -19,8 +19,10 @@ import argparse
 import platform
 
 if platform.system() == 'Darwin':
+    # MACOS Path
     chrome_default_path = os.getcwd() + '/driver/chromedriver'
 else:
+    # Windows Path
     chrome_default_path = os.getcwd() + '/driver/chromedriver.exe'
 
 parser = argparse.ArgumentParser(description='PyWhatsapp Guide')
@@ -31,6 +33,8 @@ parser.add_argument('--remove_cache', action='store', type=str, default='False',
                     help='Remove Cache | Scan QR again or Not')
 parser.add_argument('--import_contact', action='store', type=str, default='False',
                     help='Import contacts.txt or not (True/False)')
+parser.add_argument('--enable_headless', action='store', type=str, default='False',
+                    help='Enable Headless Driver (True/False)')
 args = parser.parse_args()
 
 if args.remove_cache == 'True':
@@ -91,11 +95,9 @@ def input_contacts():
 def input_message():
     global message
     # Enter your Good Morning Msg
-    print()
     print(
         "Enter the message and use the symbol '~' to end the message:\nFor example: Hi, this is a test message~\n\nYour message: ")
     message = []
-    temp = ""
     done = False
 
     while not done:
@@ -106,14 +108,15 @@ def input_message():
         else:
             message.append(temp)
     message = "\n".join(message)
-    print()
     print(message)
 
 
-def whatsapp_login(chrome_path):
+def whatsapp_login(chrome_path, headless):
     global wait, browser, Link
     chrome_options = Options()
     chrome_options.add_argument('--user-data-dir=./User_Data')
+    if headless == 'True':
+        chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(executable_path=chrome_path, options=chrome_options)
     wait = WebDriverWait(browser, 600)
     browser.get(Link)
@@ -154,6 +157,7 @@ def send_unsaved_contact_message():
     global message
     try:
         time.sleep(10)
+        browser.implicitly_wait(10)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
             if ch == "\n":
@@ -163,7 +167,7 @@ def send_unsaved_contact_message():
                 input_box.send_keys(ch)
         input_box.send_keys(Keys.ENTER)
         print("Message sent successfully")
-    except NoSuchElementException as e:
+    except Exception as e:
         print("Failed to send message exception: ", e)
         return
 
@@ -328,12 +332,12 @@ if __name__ == "__main__":
 
     # Let us login and Scan
     print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
-    whatsapp_login(args.chrome_driver_path)
+    whatsapp_login(args.chrome_driver_path, args.enable_headless)
 
     # Send message to all Contact List
     # This sender is just for testing purpose to check script working or not.
     # Scheduling works below.
-    if (isSchedule == "yes"):
+    if isSchedule == "yes":
         schedule.every().day.at(jobtime).do(sender)
     else:
         sender()
