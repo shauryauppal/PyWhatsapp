@@ -156,7 +156,7 @@ def send_message(target):
 def send_unsaved_contact_message():
     global message
     try:
-        time.sleep(15)
+        time.sleep(10)
         browser.implicitly_wait(10)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
