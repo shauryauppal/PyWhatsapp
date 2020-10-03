@@ -15,9 +15,14 @@ import time
 import datetime
 import os
 import argparse
+import platform
+if platform.system()=='Darwin':
+    chrome_default_path = os.getcwd()+'/driver/chromedriver'
+else:
+    chrome_default_path = os.getcwd() + '/driver/chromedriver.exe'
 
 parser = argparse.ArgumentParser(description='PyWhatsapp Guide')
-parser.add_argument('--chrome_driver_path', action='store', type=str, default='./chromedriver.exe', help='chromedriver executable path (MAC and Windows path would be different)')
+parser.add_argument('--chrome_driver_path', action='store', type=str, default=chrome_default_path, help='chromedriver executable path (MAC and Windows path would be different)')
 parser.add_argument('--message', action='store', type=str, default='', help='Enter the msg you want to send')
 parser.add_argument('--remove_cache', action='store', type=str, default='False', help='Remove Cache | Scan QR again or Not')
 args = parser.parse_args()
@@ -129,7 +134,8 @@ def send_message(target):
         input_box.send_keys(Keys.ENTER)
         print("Message sent successfuly")
         time.sleep(1)
-    except NoSuchElementException:
+    except NoSuchElementException as e:
+        print("send message exception: ", e)
         return
 
 
@@ -145,8 +151,8 @@ def send_unsaved_contact_message():
                 input_box.send_keys(ch)
         input_box.send_keys(Keys.ENTER)
         print("Message sent successfuly")
-    except NoSuchElementException:
-        print("Failed to send message")
+    except NoSuchElementException as e:
+        print("Failed to send message exception: ", e)
         return
 
 
@@ -290,9 +296,7 @@ if __name__ == "__main__":
         schedule.every().day.at(jobtime).do(sender)
     else:
         sender()
-
-    # First time message sending Task Complete
-    print("Task Completed")
+        print("Task Completed")
 
     # Messages are scheduled to send
     # Default schedule to send attachment and greet the personal
