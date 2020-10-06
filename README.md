@@ -76,9 +76,11 @@ NOTE: A folder User_Data will be created which has all your session information.
   --chrome_driver_path (required) CHROME_DRIVER_PATH chromedriver executable path (MAC and Windows path would be different) <br>
   --message (optional) MESSAGE Enter the msg you want to send <br>
   --remove_cache (optional) REMOVE_CACHE Remove Cache | Scan QR again or Not <br>
+  --import_contact (optional) IMPORT_CONTACT reads contacts from contact.txt text file <br>
+  --enable_headless (optional) Enable Headless Driver (True/False)<br>
 
-For Windows: `python3 PyWhatsapp.py --chrome_driver_path './chromedriver.exe' --message 'Hi Shaurya, How Are you?'`
-<br>For MACOS: `python3 PyWhatsapp.py --chrome_driver_path './chromedriver' --message 'Hi Shaurya, How Are you?'`
+For Windows: `python3 PyWhatsapp.py --chrome_driver_path 'driver/chromedriver.exe' --message 'Hi Shaurya, How Are you?'`
+<br>For MACOS: `python3 PyWhatsapp.py --chrome_driver_path 'driver/chromedriver' --message 'Hi Shaurya, How Are you?'`
 
 ### input_contacts()
 
@@ -161,6 +163,13 @@ schedule.every().Friday.at("07:30").do(sender)
 schedule.every().day.at("08:30").do(sender)
 
 *   You make change these schedule days and time according to you.
+
+### How to write contacts in contacts.txt file (check commited file)?
+```
+shaurya <- isdigit() = False so this is saved contact
+
+919899312345 <- isdigit() = True so this is unsaved contact
+```
 
 ---
 
