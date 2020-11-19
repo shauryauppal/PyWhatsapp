@@ -224,8 +224,6 @@ def send_files():
     
     time.sleep(1)
     # To send a Document(PDF, Word file, PPT)
-    # modified code to work with my particular implementation 
-    # I use this to integrate non document file imports.
     # This makes sure that gifs, images can be imported through documents folder and they display
     # properly in whatsapp web.
     if doc_filename.split('.')[1]=='pdf'or doc_filename.split('.')[1]=='docx'or doc_filename.split('.')[1]=='pptx' :
@@ -244,18 +242,12 @@ def send_files():
         except:
             # Check for traceback errors with XML imports
             traceback.print_exc()
-        
-        
-        
     time.sleep(1)
     docPath = os.getcwd() + "\\Documents\\" + doc_filename
-    
     try:
         autoit.control_focus("Open", "Edit1")
     except :
         traceback.print_exc()
-    
-    
     autoit.control_set_text("Open", "Edit1", (docPath))
     autoit.control_click("Open", "Button1")
     time.sleep(3)
@@ -264,7 +256,6 @@ def send_files():
 
     whatsapp_send_button.click()
     print('File sent')
-
 
 def import_contacts():
     global Contact, unsaved_Contacts
@@ -313,13 +304,11 @@ def sender():
                 try:
                     send_attachment()
                 except:
-                    # No need to print File not sent as try except statements are in function.
                     print()
             if (docChoice == "yes"):
                 try:
                     send_files()
                 except:
-                    # No need to print File not sent as try except statements are in function.
                     print()
             time.sleep(7)
 
@@ -340,8 +329,7 @@ def scheduler():
     while True:
         schedule.run_pending()
         time.sleep(1)
-
-
+        
 if __name__ == "__main__":
     print("Web Page Open")
 
