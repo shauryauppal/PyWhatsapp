@@ -1,4 +1,6 @@
 import schedule
+# Importing traceback to catch xml button not found errors in the future
+import traceback
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -174,13 +176,19 @@ def send_unsaved_contact_message():
 
 def send_attachment():
     # Attachment Drop Down Menu
-    clipButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/div/span')
-    clipButton.click()
+    try:
+        clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
+        clipButton.click()
+    except:
+        traceback.print_exc()
     time.sleep(1)
 
     # To send Videos and Images.
-    mediaButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/span/div/div/ul/li[1]/button')
-    mediaButton.click()
+    try:
+        mediaButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[1]/button')
+        mediaButton.click()
+    except:
+        traceback.print_exc()
     time.sleep(3)
     hour = datetime.datetime.now().hour
     # After 5am and before 11am scheduled this.
@@ -198,34 +206,64 @@ def send_attachment():
     autoit.control_click("Open", "Button1")
 
     time.sleep(3)
-    whatsapp_send_button = browser.find_element_by_xpath(
-        '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
-    whatsapp_send_button.click()
+    # Send button
+    try:
+        whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
+        whatsapp_send_button.click()
+    except:
+        traceback.print_exc()
+    
+    print("File sent")
 
-
-# Function to send Documents(PDF, Word file, PPT, etc.)
 
 def send_files():
     global doc_filename
     # Attachment Drop Down Menu
-    clipButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/div/span')
-    clipButton.click()
+    clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
+    
+    
     time.sleep(1)
-
     # To send a Document(PDF, Word file, PPT)
-    docButton = browser.find_element_by_xpath('//*[@id="main"]/header/div[3]/div/div[2]/span/div/div/ul/li[3]/button')
-    docButton.click()
+    # modified code to work with my particular implementation 
+    # I use this to integrate non document file imports.
+    # This makes sure that gifs, images can be imported through documents folder and they display
+    # properly in whatsapp web.
+    if doc_filename.split('.')[1]=='pdf'or doc_filename.split('.')[1]=='docx'or doc_filename.split('.')[1]=='pptx' :
+        try:
+            docButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[3]/button')
+            
+            docButton.click()
+        except:
+            # Check for traceback errors with XML imports
+            traceback.print_exc()
+    else:
+        try: 
+            # IMG attatchment button
+            docButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[1]/button')
+            docButton.click()
+        except:
+            # Check for traceback errors with XML imports
+            traceback.print_exc()
+        
+        
+        
     time.sleep(1)
-
     docPath = os.getcwd() + "\\Documents\\" + doc_filename
-
-    autoit.control_focus("Open", "Edit1")
+    
+    try:
+        autoit.control_focus("Open", "Edit1")
+    except :
+        traceback.print_exc()
+    
+    
     autoit.control_set_text("Open", "Edit1", (docPath))
     autoit.control_click("Open", "Button1")
     time.sleep(3)
-    whatsapp_send_button = browser.find_element_by_xpath(
-        '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span[2]/div/div/span')
+    # Changed whatsapp send button xml link.
+    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
+
     whatsapp_send_button.click()
+    print('File sent')
 
 
 def import_contacts():
@@ -275,12 +313,14 @@ def sender():
                 try:
                     send_attachment()
                 except:
-                    print('Attachment not sent.')
+                    # No need to print File not sent as try except statements are in function.
+                    print()
             if (docChoice == "yes"):
                 try:
                     send_files()
                 except:
-                    print('Files not sent')
+                    # No need to print File not sent as try except statements are in function.
+                    print()
             time.sleep(7)
 
 
