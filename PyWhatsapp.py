@@ -220,7 +220,7 @@ def send_files():
     global doc_filename
     # Attachment Drop Down Menu
     clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
-    
+    clipButton.click()
     
     time.sleep(1)
     # To send a Document(PDF, Word file, PPT)
