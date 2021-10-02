@@ -139,7 +139,6 @@ def send_message(target):
             except Exception as e:
                 print("Retry Send Message Exception", e)
                 ct += 1
-                time.sleep(3)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
             if ch == "\n":
@@ -149,7 +148,6 @@ def send_message(target):
                 input_box.send_keys(ch)
         input_box.send_keys(Keys.ENTER)
         print("Message sent successfully")
-        time.sleep(1)
     except NoSuchElementException as e:
         print("send message exception: ", e)
         return
@@ -158,7 +156,6 @@ def send_message(target):
 def send_unsaved_contact_message():
     global message
     try:
-        time.sleep(10)
         browser.implicitly_wait(10)
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
@@ -177,19 +174,17 @@ def send_unsaved_contact_message():
 def send_attachment():
     # Attachment Drop Down Menu
     try:
-        clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
+        clipButton = browser.find_element_by_xpath('/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[1]/div[2]/div/div/span')
         clipButton.click()
     except:
         traceback.print_exc()
-    time.sleep(1)
 
     # To send Videos and Images.
     try:
-        mediaButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[1]/button')
+        mediaButton = browser.find_element_by_xpath('/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/div/div[1]/div[2]/div/span/div[1]/div/ul/li[1]/button/span')
         mediaButton.click()
     except:
         traceback.print_exc()
-    time.sleep(3)
     hour = datetime.datetime.now().hour
     # After 5am and before 11am scheduled this.
     if (hour >= 5 and hour <= 11):
@@ -205,7 +200,6 @@ def send_attachment():
     autoit.control_set_text("Open", "Edit1", image_path)
     autoit.control_click("Open", "Button1")
 
-    time.sleep(3)
     # Send button
     try:
         whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
@@ -221,15 +215,13 @@ def send_files():
     # Attachment Drop Down Menu
     clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
     clipButton.click()
-    
-    time.sleep(1)
+
     # To send a Document(PDF, Word file, PPT)
     # This makes sure that gifs, images can be imported through documents folder and they display
     # properly in whatsapp web.
     if doc_filename.split('.')[1]=='pdf'or doc_filename.split('.')[1]=='docx'or doc_filename.split('.')[1]=='pptx' :
         try:
             docButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[3]/button')
-            
             docButton.click()
         except:
             # Check for traceback errors with XML imports
@@ -250,7 +242,6 @@ def send_files():
         traceback.print_exc()
     autoit.control_set_text("Open", "Edit1", (docPath))
     autoit.control_click("Open", "Button1")
-    time.sleep(3)
     # Changed whatsapp send button xml link.
     whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
 
