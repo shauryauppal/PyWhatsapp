@@ -173,6 +173,45 @@ def send_unsaved_contact_message():
         print("Failed to send message exception: ", e)
         return
 
+def create_group():
+    print("Creating Group...")
+    driver.find_element_by_css_selector('div[title="Menu"]').click()
+    time.sleep(1)
+    driver.find_element_by_css_selector('div[aria-label="New group"]').click()
+    time.sleep(1)
+    contact = input("Enter name of contact or number to add to create group : ")
+    driver.find_element_by_css_selector('input[placeholder="Type contact name"]').send_keys(contact)
+    time.sleep(2)
+    try:
+        main_contact_item = driver.find_element_by_css_selector('div[data-testid="contact-list-key"]')
+        contacts = main_contact_item.find_elements_by_css_selector('._3m_Xw')
+        print('select a contact to add to group : ')
+        time.sleep(2)
+        for i in range(len(contacts)):
+            time.sleep(0.5)
+            contactname = contacts[i].find_element_by_xpath(f'/html/body/div[1]/div[1]/div[1]/div[2]/div[1]/span/div[1]/span/div[1]/div/div[2]/div[1]/div/div/div[{str(i+1)}]/div/div/div[2]/div[1]/div/span/span').text
+            print(f'    - {i+1}.{contactname}')
+        while True:
+            contact_choice = str(input('\nEnter a choice : '))
+            if contact_choice.isdigit():
+                if int(contact_choice) <= len(contacts) and int(contact_choice) > 0:
+                    contacts[int(contact_choice) - 1].click()
+                    time.sleep(1)
+                    break
+                else:
+                    print('enter the choice range ,only given from above')
+            else:
+                print('\nEnter valid option\n')
+        driver.find_element_by_css_selector('span[data-testid="arrow-forward"]').click()
+        time.sleep(1)
+        group_name = input('Enter name of the group : ')
+        driver.find_elements_by_css_selector('div[role="textbox"]')[0].send_keys(group_name)
+        driver.find_element_by_css_selector('span[data-testid="checkmark-medium"]').click()
+        time.sleep(1)
+        print('\nCreating Group...')
+        print('\nSuccessfully created the group\n')
+    except :
+        print('No contact found!!!')
 
 def send_attachment():
     # Attachment Drop Down Menu
