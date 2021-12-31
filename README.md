@@ -1,5 +1,5 @@
 # PyWhatsapp
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://github.com/shauryauppal/PyWhatsapp)  [![License](https://img.shields.io/github/license/shauryauppal/PyWhatsapp.svg)](https://github.com/shauryauppal/PyWhatsapp/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/shauryauppal/PyWhatsapp.svg)](https://github.com/shauryauppal/PyWhatsapp/stargazers)  [![HitCount](https://visitor-badges.glitch.me/?username=shauryauppal&repo=PyWhatsapp)](https://visitor-badges.glitch.me/?username=shauryauppal&repo=PyWhatsapp)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://github.com/shauryauppal/PyWhatsapp)  [![License](https://img.shields.io/github/license/shauryauppal/PyWhatsapp.svg)](https://github.com/shauryauppal/PyWhatsapp/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/shauryauppal/PyWhatsapp.svg)](https://github.com/shauryauppal/PyWhatsapp/stargazers)  [![HitCount](https://visitor-badges.glitch.me/?username=shauryauppal&repo=PyWhatsapp)](https://visitor-badges.glitch.me/?username=shauryauppal&repo=PyWhatsapp) [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shaurya-uppal/)
 
 ## Python Automation using Selenium &amp; Scheduling of messages and media
 
@@ -62,6 +62,12 @@ Website Download Webpage</a>
 
 Installation is pretty Simple no changes in setting are required keep
 everything default. Few clicks on Next and you are done.
+
+---
+
+# Promotion: Subscribe to my Newsletter - <a href = "https://www.linkedin.com/newsletters/problem-solving-data-science-6874965456701198336/">Data Science and Problem Solving
+<img width="505" alt="Screenshot 2021-12-31 at 1 04 31 PM" src="https://user-images.githubusercontent.com/20338789/147810039-f500beec-8251-4bd7-807e-63bfcb9c3b53.png"></a>
+
 
 ---
 
