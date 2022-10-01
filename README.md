@@ -85,8 +85,8 @@ NOTE: A folder User_Data will be created which has all your session information.
   --import_contact (optional) IMPORT_CONTACT reads contacts from contact.txt text file <br>
   --enable_headless (optional) Enable Headless Driver (True/False)<br>
 
-For Windows: `python3 PyWhatsapp.py --chrome_driver_path 'driver/chromedriver.exe' --message 'Hi Shaurya, How Are you?'`
-<br>For MACOS: `python3 PyWhatsapp.py --chrome_driver_path 'driver/chromedriver' --message 'Hi Shaurya, How Are you?'`
+For Windows: `python3 PyWhatsapp.py --message 'Hi Shaurya, How Are you?'`
+<br>For MACOS: `python3 PyWhatsapp.py --message 'Hi Shaurya, How Are you?'`
 
 ### input_contacts()
 
@@ -191,6 +191,11 @@ src="https://raw.githubusercontent.com/shauryauppal/PyWhatsapp/master/Input_Type
 src="https://raw.githubusercontent.com/shauryauppal/PyWhatsapp/master/Media/Demo.gif" height=400 width=400/>
 
 ---
+
+### Updates
+
+**01.10.2022** : No need to install any webdriver. [Nitin Kumar](https://linkedin.com/in/nitin30kumar/) contributed to auto-install the latest webdriver & keep it saved as cache.
+
 
 ## Contributions
 <a href="https://github.com/shauryauppal/PyWhatsapp/issues"> Issues </a>
