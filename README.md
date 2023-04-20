@@ -215,5 +215,9 @@ shauryauppal00111@gmail.com
 Feel free to mail me for any queries (After you have tried finding your
 solution).
 
+### Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=shauryauppal/PyWhatsapp&type=Date)](https://star-history.com/#shauryauppal/PyWhatsapp&Date)
+
 #### If this helped you in any way gift me a cup of coffee :coffee:
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UXSREFS2VFSWU)
