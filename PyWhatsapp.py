@@ -1,5 +1,4 @@
 import schedule
-# Importing traceback to catch xml button not found errors in the future
 import traceback
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
+import logging
 
 try:
     import autoit
@@ -19,6 +19,9 @@ import datetime
 import os
 import argparse
 import platform
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 if platform.system() == 'Darwin':
     # MACOS Path
@@ -136,10 +139,17 @@ def send_message(target):
                 group_title = wait.until(EC.presence_of_element_located((By.XPATH, x_arg)))
                 group_title.click()
                 break
-            except Exception as e:
-                print("Retry Send Message Exception", e)
+            except NoSuchElementException as e:
+                logging.warning("Element not found, retrying... Attempt: %d", ct + 1)
                 ct += 1
                 time.sleep(3)
+            except Exception as e:
+                logging.error("Unexpected error while finding element: %s", e)
+                return
+        if ct == 5:
+            logging.error("Failed to find the element after 5 attempts")
+            return
+
         input_box = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
         for ch in message:
             if ch == "\n":
@@ -148,11 +158,12 @@ def send_message(target):
             else:
                 input_box.send_keys(ch)
         input_box.send_keys(Keys.ENTER)
-        print("Message sent successfully")
+        logging.info("Message sent successfully to %s", target)
         time.sleep(1)
     except NoSuchElementException as e:
-        print("send message exception: ", e)
-        return
+        logging.error("send_message: NoSuchElementException: %s", e)
+    except Exception as e:
+        logging.error("send_message: Unexpected error: %s", e)
 
 
 def send_unsaved_contact_message():
@@ -168,148 +179,170 @@ def send_unsaved_contact_message():
             else:
                 input_box.send_keys(ch)
         input_box.send_keys(Keys.ENTER)
-        print("Message sent successfully")
+        logging.info("Message sent successfully to unsaved contact")
+    except NoSuchElementException as e:
+        logging.error("send_unsaved_contact_message: NoSuchElementException: %s", e)
     except Exception as e:
-        print("Failed to send message exception: ", e)
-        return
+        logging.error("send_unsaved_contact_message: Unexpected error: %s", e)
 
 
 def send_attachment():
-    # Attachment Drop Down Menu
     try:
         clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
         clipButton.click()
-    except:
-        traceback.print_exc()
+    except NoSuchElementException as e:
+        logging.error("send_attachment: NoSuchElementException: %s", e)
+        return
+    except Exception as e:
+        logging.error("send_attachment: Unexpected error: %s", e)
+        return
     time.sleep(1)
 
-    # To send Videos and Images.
     try:
         mediaButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[1]/button')
         mediaButton.click()
-    except:
-        traceback.print_exc()
+    except NoSuchElementException as e:
+        logging.error("send_attachment: NoSuchElementException: %s", e)
+        return
+    except Exception as e:
+        logging.error("send_attachment: Unexpected error: %s", e)
+        return
     time.sleep(3)
     hour = datetime.datetime.now().hour
-    # After 5am and before 11am scheduled this.
     if (hour >= 5 and hour <= 11):
         image_path = os.getcwd() + "\\Media\\" + 'goodmorning.jpg'
-    # After 9pm and before 11pm schedule this
     elif (hour >= 21 and hour <= 23):
         image_path = os.getcwd() + "\\Media\\" + 'goodnight.jpg'
-    else:  # At any other time schedule this.
+    else:
         image_path = os.getcwd() + "\\Media\\" + 'howareyou.jpg'
-    # print(image_path)
 
-    autoit.control_focus("Open", "Edit1")
-    autoit.control_set_text("Open", "Edit1", image_path)
-    autoit.control_click("Open", "Button1")
+    try:
+        autoit.control_focus("Open", "Edit1")
+        autoit.control_set_text("Open", "Edit1", image_path)
+        autoit.control_click("Open", "Button1")
+    except Exception as e:
+        logging.error("send_attachment: AutoIt error: %s", e)
+        return
 
     time.sleep(3)
-    # Send button
     try:
         whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
         whatsapp_send_button.click()
-    except:
-        traceback.print_exc()
-    
-    print("File sent")
+    except NoSuchElementException as e:
+        logging.error("send_attachment: NoSuchElementException: %s", e)
+    except Exception as e:
+        logging.error("send_attachment: Unexpected error: %s", e)
+
+    logging.info("File sent")
 
 
 def send_files():
     global doc_filename
-    # Attachment Drop Down Menu
-    clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
-    clipButton.click()
-    
+    try:
+        clipButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/div/span')
+        clipButton.click()
+    except NoSuchElementException as e:
+        logging.error("send_files: NoSuchElementException: %s", e)
+        return
+    except Exception as e:
+        logging.error("send_files: Unexpected error: %s", e)
+        return
     time.sleep(1)
-    # To send a Document(PDF, Word file, PPT)
-    # This makes sure that gifs, images can be imported through documents folder and they display
-    # properly in whatsapp web.
-    if doc_filename.split('.')[1]=='pdf'or doc_filename.split('.')[1]=='docx'or doc_filename.split('.')[1]=='pptx' :
-        try:
+
+    try:
+        if doc_filename.split('.')[1] in ['pdf', 'docx', 'pptx']:
             docButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[3]/button')
-            
-            docButton.click()
-        except:
-            # Check for traceback errors with XML imports
-            traceback.print_exc()
-    else:
-        try: 
-            # IMG attatchment button
+        else:
             docButton = browser.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div[2]/div/span/div/div/ul/li[1]/button')
-            docButton.click()
-        except:
-            # Check for traceback errors with XML imports
-            traceback.print_exc()
+        docButton.click()
+    except NoSuchElementException as e:
+        logging.error("send_files: NoSuchElementException: %s", e)
+        return
+    except Exception as e:
+        logging.error("send_files: Unexpected error: %s", e)
+        return
     time.sleep(1)
+
     docPath = os.getcwd() + "\\Documents\\" + doc_filename
     try:
         autoit.control_focus("Open", "Edit1")
-    except :
-        traceback.print_exc()
-    autoit.control_set_text("Open", "Edit1", (docPath))
-    autoit.control_click("Open", "Button1")
-    time.sleep(3)
-    # Changed whatsapp send button xml link.
-    whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
+        autoit.control_set_text("Open", "Edit1", (docPath))
+        autoit.control_click("Open", "Button1")
+    except Exception as e:
+        logging.error("send_files: AutoIt error: %s", e)
+        return
 
-    whatsapp_send_button.click()
-    print('File sent')
+    time.sleep(3)
+    try:
+        whatsapp_send_button = browser.find_element_by_xpath('//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/span/div/div')
+        whatsapp_send_button.click()
+    except NoSuchElementException as e:
+        logging.error("send_files: NoSuchElementException: %s", e)
+    except Exception as e:
+        logging.error("send_files: Unexpected error: %s", e)
+
+    logging.info("File sent")
 
 def import_contacts():
     global Contact, unsaved_Contacts
     Contact = []
     unsaved_Contacts = []
-    fp = open("contacts.txt", "r")
-    while True:
-        line = fp.readline()
-        con = ' '.join(line.split())
-        if con and con.isdigit():
-            unsaved_Contacts.append(int(con))
-        elif con:
-            Contact.append(con)
-        if not line:
-            break
+    try:
+        fp = open("contacts.txt", "r")
+        while True:
+            line = fp.readline()
+            con = ' '.join(line.split())
+            if con and con.isdigit():
+                unsaved_Contacts.append(int(con))
+            elif con:
+                Contact.append(con)
+            if not line:
+                break
+    except FileNotFoundError as e:
+        logging.error("import_contacts: FileNotFoundError: %s", e)
+    except Exception as e:
+        logging.error("import_contacts: Unexpected error: %s", e)
 
 
 def sender():
     global Contact, choice, docChoice, unsaved_Contacts
-    print(Contact, unsaved_Contacts)
+    logging.info("Starting sender with contacts: %s and unsaved contacts: %s", Contact, unsaved_Contacts)
     for i in Contact:
         try:
             send_message(i)
-            print("Message sent to ", i)
+            logging.info("Message sent to %s", i)
         except Exception as e:
-            print("Msg to {} send Exception {}".format(i, e))
+            logging.error("sender: Error sending message to %s: %s", i, e)
         if (choice == "yes"):
             try:
                 send_attachment()
-            except:
-                print('Attachment not sent.')
+            except Exception as e:
+                logging.error("sender: Error sending attachment to %s: %s", i, e)
         if (docChoice == "yes"):
             try:
                 send_files()
-            except:
-                print('Files not sent')
+            except Exception as e:
+                logging.error("sender: Error sending files to %s: %s", i, e)
     time.sleep(5)
     if len(unsaved_Contacts) > 0:
         for i in unsaved_Contacts:
             link = "https://web.whatsapp.com/send?phone={}&text&source&data&app_absent".format(i)
-            # driver  = webdriver.Chrome()
             browser.get(link)
-            print("Sending message to", i)
-            send_unsaved_contact_message()
+            logging.info("Sending message to %s", i)
+            try:
+                send_unsaved_contact_message()
+            except Exception as e:
+                logging.error("sender: Error sending message to unsaved contact %s: %s", i, e)
             if (choice == "yes"):
                 try:
                     send_attachment()
-                except:
-                    print()
+                except Exception as e:
+                    logging.error("sender: Error sending attachment to unsaved contact %s: %s", i, e)
             if (docChoice == "yes"):
                 try:
                     send_files()
-                except:
-                    print()
+                except Exception as e:
+                    logging.error("sender: Error sending files to unsaved contact %s: %s", i, e)
             time.sleep(7)
 
 
@@ -331,7 +364,7 @@ def scheduler():
         time.sleep(1)
         
 if __name__ == "__main__":
-    print("Web Page Open")
+    logging.info("Web Page Open")
 
     if os.path.exists("contacts.txt") and args.import_contact == 'True':
         # read contacts from text file
@@ -359,7 +392,7 @@ if __name__ == "__main__":
         doc_filename = input("Enter the Document file name you want to send: ")
 
     # Let us login and Scan
-    print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
+    logging.info("SCAN YOUR QR CODE FOR WHATSAPP WEB")
     whatsapp_login(args.chrome_driver_path, args.enable_headless)
 
     # Send message to all Contact List
@@ -369,7 +402,7 @@ if __name__ == "__main__":
         schedule.every().day.at(jobtime).do(sender)
     else:
         sender()
-        print("Task Completed")
+        logging.info("Task Completed")
 
     # Messages are scheduled to send
     # Default schedule to send attachment and greet the personal
